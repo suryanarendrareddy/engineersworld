@@ -65,7 +65,7 @@ function Team() {
     {
       name: 'Karthik Boosa',
       role: 'Software Tester',
-      image: '/softwaretester.png',
+      image: '/softwaretester.jpg',
       bio: 'Quality assurance expert with skills in Java and Android development.',
       skills: ['Software Testing', 'Java', 'Android', 'QA'],
     },

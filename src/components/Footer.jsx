@@ -57,7 +57,7 @@ function Footer() {
             Telangana, 505302
           </p>
           <p>
-            Registered address: Venkampet road, Rajanna Sircilla, Telangana,
+            Registered Address: Venkampet road, Rajanna Sircilla, Telangana,
             505301
           </p>
         </div>
@@ -66,7 +66,7 @@ function Footer() {
         <div className="policies">
           <Link to="/terms-of-service">Terms of Service</Link>
           <Link to="/privacy-policy">Privacy Policy</Link>
-          <Link to="/refund-policy">refund Policy</Link>
+          <Link to="/refund-policy">Refund Policy</Link>
         </div>
         <p>
           &copy; {new Date().getFullYear()} Engineers World. All rights

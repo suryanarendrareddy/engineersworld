@@ -86,7 +86,7 @@ function Contact() {
             <p>
               Journalist colony, Nampally, Rajanna Sircilla, Telangana, 505302
             </p>
-            <h3>Registered address</h3>
+            <h3>Registered Address</h3>
             <p>Venkampet road, Rajanna Sircilla, Telangana,505301</p>
           </motion.div>
         </div>
