@@ -61,7 +61,7 @@ function Contact() {
           >
             <FaPhone className="info-icon" />
             <h3>Phone</h3>
-            <p>+91 7997700218</p>
+            <a href="tel:+917997700218">+91 7997700218</a>
           </motion.div>
 
           <motion.div
@@ -72,7 +72,7 @@ function Contact() {
           >
             <FaEnvelope className="info-icon" />
             <h3>Email</h3>
-            <p>info@engineersworld.in</p>
+            <a href="mailto:info@engineersworld.in">info@engineersworld.in</a>
           </motion.div>
 
           <motion.div

@@ -10,13 +10,9 @@ function Navbar({ isDarkMode, setIsDarkMode }) {
   const toggleMenu = () => setIsOpen(!isOpen)
   const toggleTheme = () => setIsDarkMode(!isDarkMode)
 
-  // Disable body scroll when menu is open
+  // disable scroll when menu is open
   useEffect(() => {
-    if (isOpen) {
-      document.body.classList.add('menu-open')
-    } else {
-      document.body.classList.remove('menu-open')
-    }
+    document.body.style.overflow = isOpen ? 'hidden' : 'auto'
   }, [isOpen])
 
   return (
@@ -25,7 +21,7 @@ function Navbar({ isDarkMode, setIsDarkMode }) {
         <Link to="/" className="logo-container">
           <img
             src={isDarkMode ? '/logo-dark.png' : '/logos.png'}
-            alt="Engineers World Logo"
+            alt="Engineers World"
             className="logo"
           />
           <span className="brand-name">Engineers World</span>
@@ -43,48 +39,45 @@ function Navbar({ isDarkMode, setIsDarkMode }) {
           {isDarkMode ? <FaSun /> : <FaMoon />}
         </motion.div>
 
-        {/* Mobile menu toggle */}
+        {/* Mobile Toggle */}
         <div className="menu-toggle" onClick={toggleMenu}>
           {isOpen ? <FaTimes /> : <FaBars />}
         </div>
 
-        {/* Navigation drawer */}
-        <motion.ul
-          className={`nav-links ${isOpen ? 'active' : ''}`}
-          initial={false}
-        >
+        {/* Desktop + Mobile Links */}
+        <motion.ul className={`nav-links ${isOpen ? 'active' : ''}`}>
           <li>
-            <Link to="/" onClick={toggleMenu}>
+            <Link to="/" onClick={() => setIsOpen(false)}>
               Home
             </Link>
           </li>
           <li>
-            <Link to="/services" onClick={toggleMenu}>
+            <Link to="/services" onClick={() => setIsOpen(false)}>
               Services
             </Link>
           </li>
           <li>
-            <Link to="/products" onClick={toggleMenu}>
+            <Link to="/products" onClick={() => setIsOpen(false)}>
               Products
             </Link>
           </li>
           <li>
-            <Link to="/about" onClick={toggleMenu}>
+            <Link to="/about" onClick={() => setIsOpen(false)}>
               About
             </Link>
           </li>
           <li>
-            <Link to="/team" onClick={toggleMenu}>
+            <Link to="/team" onClick={() => setIsOpen(false)}>
               Team
             </Link>
           </li>
           <li>
-            <Link to="/contact" onClick={toggleMenu}>
+            <Link to="/contact" onClick={() => setIsOpen(false)}>
               Contact
             </Link>
           </li>
           <li>
-            <Link to="/careers" onClick={toggleMenu}>
+            <Link to="/careers" onClick={() => setIsOpen(false)}>
               Careers
             </Link>
           </li>

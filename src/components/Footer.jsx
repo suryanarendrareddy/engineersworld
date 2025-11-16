@@ -63,7 +63,7 @@ function Footer() {
             Nampally, Rajanna Sircilla, Telangana, 505302
           </p>
           <p>
-            <span className="span">Registered Address:</span> Venkampet road,
+            <span className="span">Registered Address:</span> Venkampet road,Sircilla,
             Rajanna Sircilla, Telangana, 505301
           </p>
         </div>
