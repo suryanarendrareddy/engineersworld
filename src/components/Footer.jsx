@@ -50,15 +50,21 @@ function Footer() {
         </div>
         <div className="footer-section">
           <h3>Contact Info</h3>
-          <p>Email:info@engineersworld.in</p>
-          <p>Phone: +91 7997700218</p>
           <p>
-            Office Address: Journalist colony, Nampally, Rajanna Sircilla,
-            Telangana, 505302
+            <span className="span">Email:</span>
+            <a href="mailto:info@engineersworld.in">info@engineersworld.in</a>
           </p>
           <p>
-            Registered Address: Venkampet road, Rajanna Sircilla, Telangana,
-            505301
+            <span className="span">Phone:</span>{' '}
+            <a href="tel:+917997700218">+91 7997700218</a>
+          </p>
+          <p>
+            <span className="span">Office Address:</span> Journalist colony,
+            Nampally, Rajanna Sircilla, Telangana, 505302
+          </p>
+          <p>
+            <span className="span">Registered Address:</span> Venkampet road,
+            Rajanna Sircilla, Telangana, 505301
           </p>
         </div>
       </div>
