@@ -1,0 +1,60 @@
+
+.policy-container {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 16px;
+  background: var(--card-bg);
+  color: var(--text-color);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+  transition: 0.3s ease;
+  line-height: 1.75;
+}
+
+.policy-title {
+  font-size: 2.3rem;
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.policy-updated {
+  color: var(--muted);
+  margin-bottom: 1.6rem;
+}
+
+section {
+  margin-bottom: 2rem;
+}
+
+h2 {
+  margin-bottom: 0.5rem;
+  color: var(--section-color);
+}
+
+h3 {
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+}
+
+ul {
+  margin-left: 1.4rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
+
+
+@media print {
+  * {
+    color: black !important;
+    background: white !important;
+    box-shadow: none !important;
+  }
+
+  .policy-container {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+  }
+}

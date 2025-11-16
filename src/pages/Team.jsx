@@ -11,69 +11,72 @@ function Team() {
 
   const teamMembers = [
     {
-      name: "Akshay Kumar",
-      role: "Chief Executive Officer (CEO)",
-      image: "/CEO.jpg",
-      bio: "A visionary leader with profound expertise in cybersecurity, cloud computing, and web development.",
-      skills: ["Cybersecurity", "Cloud Computing", "Web Development", "Leadership"]
+      name: 'Mani Kumar',
+      role: 'Chairman',
+      image: '/chairman.jpg',
+      bio: 'The Chairman of Engineers World, plays a pivotal role in shaping our vision and driving innovation.',
+      skills: [
+        'Motivational Speaker',
+        'Creative Head',
+        'Business Developer',
+        'Leadership',
+      ],
     },
     {
-      name: "Mohammad Akheel",
-      role: "Co-Founder",
-      image: "/cofounder.png",
-      bio: "Expert in Networking, Linux, and cloud technologies with advanced knowledge in AI/ML.",
-      skills: ["Networking", "Linux", "Docker", "Kubernetes", "AI/ML"]
+      name: 'Akshay Kumar',
+      role: 'Chief Executive Officer (CEO)',
+      image: '/CEO.jpg',
+      bio: 'A visionary leader with profound expertise in cybersecurity, cloud computing, and web development.',
+      skills: [
+        'Cybersecurity',
+        'Cloud Computing',
+        'Web Development',
+        'Leadership',
+      ],
     },
     {
-      name: "Shivansh Bhardwaj",
-      role: "UI/UX Designer",
-      image: "/uiuxdesigner.png",
-      bio: "Creative designer with expertise in user experience and data analysis.",
-      skills: ["UI Design", "UX Design", "Data Analysis", "Web Design"]
+      name: 'Mohammad Akheel',
+      role: 'Co-Founder',
+      image: '/cofounder.png',
+      bio: 'Expert in Networking, Linux, and cloud technologies with advanced knowledge in AI/ML.',
+      skills: ['Networking', 'Linux', 'Docker', 'Kubernetes', 'AI/ML'],
     },
     {
-      name: "Juvvala Shiva Kesava Rao",
-      role: "Android Developer",
-      image: "/androidDeveloper.png",
-      bio: "Skilled in mobile app development with expertise in React.js and Spring Boot.",
-      skills: ["Android", "React.js", "Spring Boot", "SQL"]
+      name: 'Shivansh Bhardwaj',
+      role: 'UI/UX Designer',
+      image: '/uiuxdesigner.png',
+      bio: 'Creative designer with expertise in user experience and data analysis.',
+      skills: ['UI Design', 'UX Design', 'Data Analysis', 'Web Design'],
     },
     {
-      name: "Yeshwanth",
-      role: "Managing Director",
-      image: "/marketing.jpg",
-      bio: "Technical leader with expertise in frontend development and cybersecurity.",
-      skills: ["Frontend", "Cybersecurity", "Management", "Strategy"]
+      name: 'Juvvala Shiva Kesava Rao',
+      role: 'Android Developer',
+      image: '/androidDeveloper.jpg',
+      bio: 'Skilled in mobile app development with expertise in React.js and Spring Boot.',
+      skills: ['Android', 'React.js', 'Spring Boot', 'SQL'],
     },
     {
-      name: "Karthik Boosa",
-      role: "Software Tester",
-      image: "/softwaretester.png",
-      bio: "Quality assurance expert with skills in Java and Android development.",
-      skills: ["Software Testing", "Java", "Android", "QA"]
+      name: 'Yeshwanth',
+      role: 'Managing Director',
+      image: '/marketing.jpg',
+      bio: 'Technical leader with expertise in frontend development and cybersecurity.',
+      skills: ['Frontend', 'Cybersecurity', 'Management', 'Strategy'],
     },
     {
-      name: "Sujith",
-      role: "Cyber Security Analyst",
-      image: "/cyberAnalyst.jpg",
-      bio: "Security expert proficient in digital forensics and penetration testing.",
-      skills: ["Cybersecurity", "Digital Forensics", "Java", "Pen Testing"]
+      name: 'Karthik Boosa',
+      role: 'Software Tester',
+      image: '/softwaretester.png',
+      bio: 'Quality assurance expert with skills in Java and Android development.',
+      skills: ['Software Testing', 'Java', 'Android', 'QA'],
     },
     {
-      name: "Surya Narendra",
-      role: "Frontend Developer",
-      image: "/developer.jpg",
-      bio: "Specialist in React.js with expertise in Core Java and MongoDB.",
-      skills: ["React.js", "Core Java", "MongoDB", "Frontend"]
+      name: 'Sujith',
+      role: 'Cyber Security Analyst',
+      image: '/cyberAnalyst.jpg',
+      bio: 'Security expert proficient in digital forensics and penetration testing.',
+      skills: ['Cybersecurity', 'Digital Forensics', 'Java', 'Pen Testing'],
     },
-    {
-      name: "Likitha",
-      role: "Frontend Developer",
-      image: "/HR.jpg",
-      bio: "Expert in creating intuitive user interfaces and frontend development.",
-      skills: ["Frontend", "Core Java", "UI Development", "Web Design"]
-    }
-  ];
+  ]
 
   return (
     <div className="team-page">

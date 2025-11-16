@@ -41,7 +41,7 @@ function Contact() {
 
   return (
     <div className="contact-page">
-      <motion.div 
+      <motion.div
         className="contact-hero"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -53,7 +53,7 @@ function Contact() {
 
       <div className="contact-content">
         <div className="contact-info">
-          <motion.div 
+          <motion.div
             className="info-card"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -64,7 +64,7 @@ function Contact() {
             <p>+91 7997700218</p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="info-card"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -75,19 +75,23 @@ function Contact() {
             <p>info@engineersworld.in</p>
           </motion.div>
 
-          <motion.div 
+          <motion.div
             className="info-card"
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.7 }}
           >
             <FaMapMarkerAlt className="info-icon" />
-            <h3>Address</h3>
-            <p>Venkampet road, sircilla, Telangana, 505301</p>
+            <h3>Office Address</h3>
+            <p>
+              Journalist colony, Nampally, Rajanna Sircilla, Telangana, 505302
+            </p>
+            <h3>Registered address</h3>
+            <p>Venkampet road, Rajanna Sircilla, Telangana,505301</p>
           </motion.div>
         </div>
 
-        <motion.form 
+        <motion.form
           className="contact-form"
           onSubmit={handleSubmit}
           initial={{ opacity: 0, y: 20 }}
@@ -95,7 +99,7 @@ function Contact() {
           transition={{ delay: 0.9 }}
         >
           <h2>Send us a Message</h2>
-          
+
           <div className="form-group">
             <input
               type="text"
@@ -139,20 +143,22 @@ function Contact() {
             ></textarea>
           </div>
 
-          <button type="submit" className="submit-btn" disabled={status === 'sending'}>
+          <button
+            type="submit"
+            className="submit-btn"
+            disabled={status === 'sending'}
+          >
             {status === 'sending' ? 'Sending...' : 'Send Message'}
           </button>
 
           {status === 'success' && (
             <p className="success-message">Message sent successfully!</p>
           )}
-          {status === 'error' && (
-            <p className="error-message">Message Sent.</p>
-          )}
+          {status === 'error' && <p className="error-message">Message Sent.</p>}
         </motion.form>
       </div>
     </div>
-  );
+  )
 }
 
 export default Contact;

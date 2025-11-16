@@ -83,7 +83,7 @@ function Home() {
     <div className="home">
       <section className="hero-video">
         
-        <video className="video-player" autoPlay loop muted>
+        <video className="video-player" autoPlay loop muted preload='auto' playsInline>
           <source src="/video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
         </video>
@@ -157,7 +157,7 @@ function Home() {
             animate={inView ? { x: 0, opacity: 1 } : {}}
             transition={{ duration: 5.0}}
           >
-            <img src="/Final Design B.png" alt="Cybersecurity" />
+            <img src="/PhishShield.png" alt="Cybersecurity" />
           </motion.div>
         </div>
       </section>

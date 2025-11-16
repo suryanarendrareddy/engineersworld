@@ -14,7 +14,7 @@ function Navbar({ isDarkMode, setIsDarkMode }) {
     <nav className={`navbar ${isDarkMode ? 'dark' : 'light'}`}>
       <div className="navbar-brand">
         <Link to="/" className="logo-container">
-          <img src="/logos.jpg" alt="Engineers World Logo" className="logo" />
+          <img src={isDarkMode ? '/logo-dark.png' : '/logos.png'} alt="Engineers World Logo" className="logo" />
           <span className="brand-name">Engineers World</span>
         </Link>
       </div>
