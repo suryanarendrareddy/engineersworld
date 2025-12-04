@@ -9,7 +9,7 @@ function Footer() {
           <h3>Connect With Us</h3>
           <div className="social-links">
             <a
-              href="https://www.linkedin.com/company/engineers-world-pvt-ltd/?viewAsMember=true"
+              href="https://www.linkedin.com/company/engineer-s-world/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -23,7 +23,7 @@ function Footer() {
               <FaInstagram />
             </a>
             <a
-              href="https://www.youtube.com/@engineers_world_pvt"
+              href="https://youtube.com/@engineersworld-ew?si=7cI5kwaNmVQ3m2V0"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -63,8 +63,8 @@ function Footer() {
             Nampally, Rajanna Sircilla, Telangana, 505302
           </p>
           <p>
-            <span className="span">Registered Address:</span> Venkampet road,Sircilla,
-            Rajanna Sircilla, Telangana, 505301
+            <span className="span">Registered Address:</span> Venkampet
+            road,Sircilla, Rajanna Sircilla, Telangana, 505301
           </p>
         </div>
       </div>

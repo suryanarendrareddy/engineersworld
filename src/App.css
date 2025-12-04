@@ -102,3 +102,29 @@
 .card:hover {
   transform: translateY(-5px);
 }
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+}
+
+.light {
+  --bg-color: #f5f7fa;
+  --text-color: #000;
+  --highlight-text: #000;
+  --border-color: rgba(0,0,0,0.3);
+  --input-bg: rgba(255,255,255,0.5);
+  --input-border: rgba(0,0,0,0.4);
+  --card-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  --card-shadow-hover: 0 6px 18px rgba(0,0,0,0.25);
+}
+
+.dark {
+  --bg-color: #121212;
+  --text-color: #fff;
+  --highlight-text: #fff;
+  --border-color: rgba(255,255,255,0.3);
+  --input-bg: rgba(255,255,255,0.1);
+  --input-border: rgba(255,255,255,0.4);
+  --card-shadow: 0 4px 10px rgba(255,255,255,0.1);
+  --card-shadow-hover: 0 6px 18px rgba(255,255,255,0.2);
+}

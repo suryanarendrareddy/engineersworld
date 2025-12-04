@@ -1,43 +1,37 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa';
-import emailjs from '@emailjs/browser';
-import './Contact.css';
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
+import emailjs from '@emailjs/browser'
+import './Contact.css'
 
 function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     subject: '',
-    message: ''
-  });
-  const [status, setStatus] = useState('');
+    message: '',
+  })
+
+  const [status, setStatus] = useState('')
 
   const handleSubmit = (e) => {
-    e.preventDefault();
-    setStatus('sending');
+    e.preventDefault()
+    setStatus('sending')
 
-    emailjs.send(
-      'YOUR_SERVICE_ID',
-      'YOUR_TEMPLATE_ID',
-      formData,
-      'YOUR_PUBLIC_KEY'
-    )
+    emailjs
+      .send('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', formData, 'YOUR_PUBLIC_KEY')
       .then(() => {
-        setStatus('success');
-        setFormData({ name: '', email: '', subject: '', message: '' });
+        setStatus('success')
+        setFormData({ name: '', email: '', subject: '', message: '' })
       })
       .catch(() => {
-        setStatus('error');
-      });
-  };
+        setStatus('error')
+      })
+  }
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
+    setFormData({ ...formData, [e.target.name]: e.target.value })
+  }
 
   return (
     <div className="contact-page">
@@ -61,7 +55,7 @@ function Contact() {
           >
             <FaPhone className="info-icon" />
             <h3>Phone</h3>
-            <a href="tel:+917997700218">+91 7997700218</a>
+            <p>+91 7997700218</p>
           </motion.div>
 
           <motion.div
@@ -72,7 +66,7 @@ function Contact() {
           >
             <FaEnvelope className="info-icon" />
             <h3>Email</h3>
-            <a href="mailto:info@engineersworld.in">info@engineersworld.in</a>
+            <p>info@engineersworld.in</p>
           </motion.div>
 
           <motion.div
@@ -87,7 +81,7 @@ function Contact() {
               Journalist colony, Nampally, Rajanna Sircilla, Telangana, 505302
             </p>
             <h3>Registered Address</h3>
-            <p>Venkampet road, Rajanna Sircilla, Telangana,505301</p>
+            <p>Venkampet road, Sircilla, Rajanna Sircilla, Telangana, 505301</p>
           </motion.div>
         </div>
 
@@ -161,4 +155,4 @@ function Contact() {
   )
 }
 
-export default Contact;
+export default Contact
