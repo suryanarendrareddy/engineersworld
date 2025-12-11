@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300..700&display=swap');
+@import "tailwindcss";
+
+@keyframes gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-gradient {
+  animation: gradient 10s ease infinite;
+}
+
+/* BASE TYPOGRAPHY */
+body {
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+               'Lucida Sans', Arial, sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 1.55;
+  letter-spacing: 0.15px;
+  -webkit-font-smoothing: antialiased;
+  color: #ffffff;
+  background-color: #020617;
+}
+
+/* RESPONSIVE BODY FONT SIZE */
+@media (min-width: 640px) {
+  body {
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1024px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1280px) {
+  body {
+    font-size: 17px;
+  }
+}
+
+/* H1 */
+h1 {
+  font-weight: 700;
+  font-size: 26px;
+}
+
+@media (min-width: 640px) {
+  h1 {
+    font-size: 30px;
+  }
+}
+
+@media (min-width: 1024px) {
+  h1 {
+    font-size: 34px;
+  }
+}
+
+/* H2 */
+h2 {
+  font-weight: 600;
+  font-size: 20px;
+}
+
+@media (min-width: 640px) {
+  h2 {
+    font-size: 22px;
+  }
+}
+
+@media (min-width: 1024px) {
+  h2 {
+    font-size: 24px;
+  }
+}
+
+/* H3 */
+h3 {
+  font-weight: 600;
+  font-size: 17px;
+}
+
+@media (min-width: 640px) {
+  h3 {
+    font-size: 18px;
+  }
+}
+
+@media (min-width: 1024px) {
+  h3 {
+    font-size: 20px;
+  }
+}
