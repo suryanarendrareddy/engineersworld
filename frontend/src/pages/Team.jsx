@@ -116,8 +116,13 @@ export default function Team() {
                 <img
                   src={member.image}
                   alt={member.name}
-                  className={`w-full h-full object-cover ${index === 0 || index === 6 ? 'scale-140' : 'scale-110'
-                    }`}
+                  className={`w-full h-full object-cover ${
+                    index === 0 || index === 6
+                      ? 'scale-150'
+                      : index === 2
+                      ? 'scale-100'
+                      : 'scale-110'
+                  }`}
                 />
               </motion.div>
 
