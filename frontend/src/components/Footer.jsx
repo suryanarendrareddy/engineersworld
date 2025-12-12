@@ -1,17 +1,39 @@
 import { FaLinkedin, FaInstagram, FaYoutube } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
-
+import { motion } from 'framer-motion'
 export default function Footer() {
   return (
     <footer
       className="relative pt-20 pb-10 text-white
       bg-gradient-to-b from-[#0b1220] via-[#0a1a2f] to-[#020617]"
     >
+
       <div className="absolute inset-0 opacity-30 pointer-events-none">
         <div className="absolute -top-10 left-0 w-[320px] h-[320px] bg-cyan-500/20 blur-[150px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-[260px] h-[260px] bg-purple-600/20 blur-[150px] rounded-full" />
       </div>
-
+      {[...Array(100)].map((_, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, scale: 0.2 }}
+            animate={{
+              opacity: [0.2, 1, 0.2],
+              scale: [0.7, 1.2, 0.7],
+              x: [0, Math.sin(i) * 40],
+              y: [0, Math.cos(i) * 40],
+            }}
+            transition={{
+              duration: 3 + i * 0.15,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute w-2 h-2 bg-gray-900/80 rounded-full blur-[2px]"
+            style={{
+              top: `${(i * 8) % 100}%`,
+              left: `${(i * 11) % 100}%`,
+            }}
+          />
+        ))}
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 px-6">
 
         <div className="p-6 bg-white/5 backdrop-blur-xl rounded-xl border border-white/10">
