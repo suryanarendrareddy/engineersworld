@@ -62,7 +62,7 @@ export default function About() {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 0.2 }}
-          className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-emerald-300 via-cyan-300 to-blue-400 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,255,255,0.35)]"
+          className="relative text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 via-cyan-300 to-blue-400  bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(0,255,255,0.35)]"
         >
           About Engineers World
         </motion.h1>

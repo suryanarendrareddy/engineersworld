@@ -43,19 +43,13 @@ export default function Services() {
       icon: <FaMobile className="text-pink-400 w-10 h-10 md:w-12 md:h-12" />,
       title: 'Android App Development',
       description:
-        'Scalable mobile applications with smooth animations & strong authentication.',
-      points: [
-        'Custom Android Apps',
-        'API Integration',
-        'High-Performance UI',
-        'Secure Login Systems',
-      ],
+        'Scalable mobile apps with clean UI, animations & secure authentication.',
+      points: ['Custom Apps', 'API Integration', 'High-Performance UI', 'Secure Login'],
     },
     {
       icon: <FaServer className="text-yellow-400 w-10 h-10 md:w-12 md:h-12" />,
       title: 'Penetration Testing',
-      description:
-        'Full security auditing with OWASP tests & expert vulnerability reports.',
+      description: 'Security auditing with OWASP tests & expert vulnerability reports.',
       points: [
         'OWASP Testing',
         'Vulnerability Scan',
@@ -66,60 +60,50 @@ export default function Services() {
     {
       icon: <FaBrain className="text-emerald-400 w-10 h-10 md:w-12 md:h-12" />,
       title: 'Cyber Security Training',
-      description: 'Industry-level cybersecurity training with hands-on labs & projects.',
-      points: [
-        'Beginner to Advanced',
-        'Hands-on Labs',
-        'Attack Simulations',
-        'Industry Curriculum',
-      ],
+      description: 'Hands-on cybersecurity training with labs & real projects.',
+      points: ['Beginner to Advanced', 'Labs', 'Simulations', 'Industry Curriculum'],
     },
     {
       icon: <FaUserShield className="text-red-400 w-10 h-10 md:w-12 md:h-12" />,
       title: 'Threat Intelligence',
-      description: 'AI-powered threat monitoring & attack prediction for businesses.',
-      points: [
-        'Threat Prediction',
-        'Live Monitoring',
-        'AI-Based Risk Analysis',
-        'Incident Response',
-      ],
+      description: 'AI-powered threat monitoring & attack prediction.',
+      points: ['Threat Prediction', 'Monitoring', 'Risk Analysis', 'Incident Response'],
     },
   ]
 
   const [hover, setHover] = useState(null)
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pb-20 overflow-x-hidden">
-      {/* HERO SECTION */}
-      <section className="relative h-[45vh] md:h-[55vh] flex items-center justify-center text-center overflow-hidden px-4">
+    <div className="min-h-screen bg-[#020617] text-white pb-20 overflow-x-hidden w-full">
+      {/* HERO */}
+      <section className="relative h-[45vh] md:h-[55vh] flex items-center justify-center text-center overflow-hidden px-4 w-full">
         <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-cyan-600/40" />
 
-        {/* Floating stars */}
+        {/* SAFE FLOATING STARS */}
         {[...Array(40)].map((_, i) => (
           <motion.div
             key={i}
             initial={{ opacity: 0 }}
             animate={{
               opacity: [0.2, 0.6, 0.2],
-              x: [0, Math.sin(i) * 25],
-              y: [0, Math.cos(i) * 25],
+              x: [0, Math.sin(i) * 15],
+              y: [0, Math.cos(i) * 15],
             }}
             transition={{
-              duration: 3 + i * 0.1,
+              duration: 2.5 + i * 0.1,
               repeat: Infinity,
               ease: 'easeInOut',
             }}
             className="absolute w-1.5 h-1.5 md:w-2 md:h-2 bg-cyan-400/70 rounded-full blur-[2px]"
             style={{
               top: `${(i * 7) % 100}%`,
-              left: `${(i * 11) % 100}%`,
+              left: `${(i * 9) % 100}%`, // safer boundaries
             }}
           />
         ))}
 
-        <div className="relative z-20 px-4">
-          <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-cyan-400 via-blue-300 to-purple-400 bg-clip-text text-transparent">
+        <div className="relative z-20 px-4 max-w-full">
+          <h1 className="text-4xl md:text-6xl font-extrabold bg-gradient-to-r from-purple-400 via-cyan-300 to-blue-400  bg-clip-text text-transparent">
             Our Services
           </h1>
           <p className="text-gray-300 mt-3 text-base md:text-xl leading-relaxed">
@@ -130,7 +114,8 @@ export default function Services() {
 
       <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent my-10 md:my-14" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10">
+      {/* SERVICE CARDS */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-10 overflow-hidden">
         {services.map((srv, i) => (
           <motion.div
             key={i}
@@ -138,10 +123,12 @@ export default function Services() {
             onMouseLeave={() => setHover(null)}
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
-            animate={hover === i ? { scale: 1.04, y: -4 } : { scale: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
+            animate={hover === i ? { scale: 1.03 } : { scale: 1 }}
+            transition={{ duration: 0.35 }}
             viewport={{ once: true }}
-            className="relative w-full p-6 md:p-7 rounded-3xl bg-gradient-to-br from-[#050b18] to-[#0d1530] border border-white/10 shadow-xl"
+            className="relative w-full p-6 md:p-7 rounded-3xl
+                       bg-gradient-to-br from-[#050b18] to-[#0d1530]
+                       border border-white/10 shadow-xl overflow-hidden"
           >
             {srv.icon}
 
@@ -159,16 +146,8 @@ export default function Services() {
               ))}
             </ul>
 
-            {/* FIXED — NO OVERFLOW */}
-            <span
-              className="
-                absolute
-                bottom-0 right-0
-                w-28 h-28 md:w-40 md:h-40
-                bg-cyan-500/10 rounded-full
-                blur-2xl md:blur-3xl
-              "
-            />
+            {/* SAFE GLOW EFFECT */}
+            <span className="absolute bottom-4 right-4 w-20 h-20 md:w-32 md:h-32 bg-cyan-500/10 rounded-full blur-xl md:blur-2xl" />
           </motion.div>
         ))}
       </div>
@@ -185,22 +164,22 @@ export default function Services() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 mt-10">
           {[
             {
-              icon: <FaBolt className="text-2xl md:text-3xl" />,
+              icon: <FaBolt className="text-3xl" />,
               title: 'Planning',
               desc: 'Requirement analysis & goal setting.',
             },
             {
-              icon: <FaCubes className="text-2xl md:text-3xl" />,
+              icon: <FaCubes className="text-3xl" />,
               title: 'Design',
-              desc: 'Wireframe, UI/UX & architecture.',
+              desc: 'UI/UX, wireframes & architecture.',
             },
             {
-              icon: <FaLaptopCode className="text-2xl md:text-3xl" />,
+              icon: <FaLaptopCode className="text-3xl" />,
               title: 'Development',
               desc: 'Full-scale implementation.',
             },
             {
-              icon: <FaChartLine className="text-2xl md:text-3xl" />,
+              icon: <FaChartLine className="text-3xl" />,
               title: 'Delivery',
               desc: 'Testing, deployment & support.',
             },
@@ -212,16 +191,20 @@ export default function Services() {
               transition={{ delay: i * 0.12 }}
               className="bg-[#0b1120] p-6 rounded-2xl border border-white/10 text-center"
             >
-              <div className="text-cyan-300">{step.icon}</div>
-              <h3 className="text-lg md:text-xl font-semibold mt-3">{step.title}</h3>
+              <div className="text-cyan-300 mb-2">{step.icon}</div>
+              <h3 className="text-lg md:text-xl font-semibold">{step.title}</h3>
               <p className="text-gray-400 mt-1 text-sm md:text-base">{step.desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* CTA SECTION */}
-      <section className="max-w-4xl mx-auto px-4 mt-16 md:mt-20 p-8 md:p-10 rounded-3xl bg-gradient-to-r from-cyan-600/20 to-blue-600/10 border border-cyan-400/30 text-center">
+      {/* CTA */}
+      <section
+        className="max-w-4xl mx-auto px-4 mt-16 md:mt-20 p-8 md:p-10 rounded-3xl
+                          bg-gradient-to-r from-cyan-600/20 to-blue-600/10
+                          border border-cyan-400/30 text-center"
+      >
         <h2 className="text-2xl md:text-3xl font-bold">Have a Project in Mind?</h2>
         <p className="text-gray-300 mt-3 text-sm md:text-base">
           Let’s build something outstanding together.

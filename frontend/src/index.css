@@ -9,6 +9,11 @@
 .animate-gradient {
   animation: gradient 10s ease infinite;
 }
+html, body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+  position: relative;
+}
 
 /* BASE TYPOGRAPHY */
 body {

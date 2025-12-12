@@ -27,7 +27,7 @@ export default function Footer() {
               repeat: Infinity,
               ease: 'easeInOut',
             }}
-            className="absolute w-2 h-2 bg-gray-900/80 rounded-full blur-[2px]"
+            className="absolute w-2 h-2 bg-cyan-400 rounded-full blur-[2px]"
             style={{
               top: `${(i * 8) % 100}%`,
               left: `${(i * 11) % 100}%`,
