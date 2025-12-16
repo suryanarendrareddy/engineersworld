@@ -3,6 +3,32 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
+const MAINTENANCE_MODE = true;
+function MaintenanceOverlay() {
+  return (
+    <div className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center px-6">
+      <div className="max-w-md text-center">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-emerald-300">
+          Under Maintenance
+        </h1>
+
+        <p className="mt-4 text-gray-100 text-lg leading-relaxed">
+          Job applications are temporarily unavailable while we upgrade our
+          systems.
+        </p>
+
+        <p className="mt-2 text-gray-200 text-md">Please check back soon.</p>
+
+        <div className="mt-6 h-[1px] bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
+
+        <p className="mt-6 text-sm text-gray-300">
+          Engineers World © {new Date().getFullYear()}
+        </p>
+      </div>
+    </div>
+  )
+}
+
 export default function JobDetails() {
   const { id } = useParams()
 
@@ -117,7 +143,7 @@ export default function JobDetails() {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pb-20">
-      {/* HEADER */}
+      {MAINTENANCE_MODE && MaintenanceOverlay()}
       <motion.header
         variants={fade}
         initial="hidden"

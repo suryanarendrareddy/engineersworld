@@ -14,8 +14,16 @@ html, body {
   overflow-x: hidden !important;
   position: relative;
 }
+html,
+body,
+#root,
+.app,
+.app.dark-mode {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-/* BASE TYPOGRAPHY */
 body {
   font-family:'Josefin Sans', sans-serif;
   font-weight: 400;
