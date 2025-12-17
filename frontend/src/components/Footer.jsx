@@ -9,27 +9,6 @@ export default function Footer() {
         <div className="absolute -top-20 left-0 w-72 h-72 bg-cyan-500/20 blur-[140px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-600/20 blur-[140px] rounded-full" />
 
-        {[...Array(40)].map((_, i) => (
-          <motion.div
-            key={i}
-            animate={{
-              opacity: [0.2, 0.6, 0.2],
-              x: [0, Math.sin(i) * 18],
-              y: [0, Math.cos(i) * 18],
-              scale: [0.7, 1, 0.7],
-            }}
-            transition={{
-              duration: 4 + i * 0.12,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="absolute w-2 h-2 bg-cyan-400/70 rounded-full blur-[2px]"
-            style={{
-              top: `${(i * 9) % 100}%`,
-              left: `${(i * 13) % 100}%`,
-            }}
-          />
-        ))}
       </div>
 
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 px-6">
@@ -126,14 +105,14 @@ export default function Footer() {
               </a>
             </p>
             <p>
-              <span className="text-cyan-300 font-medium">Office:</span>
+              <span className="text-cyan-300 font-medium">Office Address:</span>
               <br />
-              Journalist Colony, Nampally, Telangana
+              Journalist Colony, Nampally, Rajanna Sircilla, Telangana - 505302
             </p>
             <p>
               <span className="text-cyan-300 font-medium">Registered Address:</span>
               <br />
-              Venkampet Road, Sircilla, Telangana
+              Venkampet Road, Rajanna Sircilla, Telangana - 505301
             </p>
           </div>
         </div>

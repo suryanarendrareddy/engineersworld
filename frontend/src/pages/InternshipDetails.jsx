@@ -14,7 +14,7 @@ function MaintenanceOverlay() {
         </h1>
 
         <p className="mt-4 text-gray-100 text-lg leading-relaxed">
-          Job applications are temporarily unavailable while we upgrade our systems.
+          Internship applications are temporarily unavailable while we upgrade our systems.
         </p>
 
         <p className="mt-2 text-gray-200 text-md">Please check back soon.</p>

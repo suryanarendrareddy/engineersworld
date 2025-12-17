@@ -1,9 +1,11 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { FaShieldAlt, FaClock, FaUserTie, FaRocket } from 'react-icons/fa'
+import { FaShieldAlt, FaClock, FaUserTie, FaRocket, FaPlay } from 'react-icons/fa'
 
 export default function Home() {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.1 })
+  const [showVideo, setShowVideo] = useState(false)
 
   const services = [
     {
@@ -106,6 +108,16 @@ export default function Home() {
           >
             Intelligent detection, rapid response, and expert cybersecurity solutions.
           </motion.p>
+
+          <div className="mt-6 flex justify-center md:hidden">
+            <button
+              onClick={() => setShowVideo(true)}
+              className="flex items-center gap-2 px-6 py-3 rounded-full
+              bg-cyan-400/20 border border-cyan-400/40 text-cyan-300"
+            >
+              <FaPlay /> Watch Video
+            </button>
+          </div>
         </div>
       </section>
 
@@ -113,7 +125,8 @@ export default function Home() {
         <motion.h2
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          className="text-3xl md:text-4xl font-bold text-center mb-12 bg-gradient-to-r from-purple-400 to-cyan-300 bg-clip-text text-transparent"
+          className="text-3xl md:text-4xl font-bold text-center mb-12
+          bg-gradient-to-r from-purple-400 to-cyan-300 bg-clip-text text-transparent"
         >
           Why Choose Us
         </motion.h2>
@@ -125,17 +138,16 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
               transition={{ delay: i * 0.2 }}
-              className="group rounded-2xl overflow-hidden bg-white/5 border border-white/10 backdrop-blur-lg shadow-xl"
+              className="group rounded-2xl overflow-hidden
+              bg-white/5 border border-white/10 backdrop-blur-lg shadow-xl"
             >
               <div className="relative h-44 overflow-hidden">
-                <img
-                  src={srv.image}
-                  alt={srv.title}
-                  className="w-full h-full object-cover"
-                />
+                <img src={srv.image} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition" />
-
-                <ul className="absolute inset-0 flex flex-col justify-center items-center gap-2 text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition px-4 text-center">
+                <ul
+                  className="absolute inset-0 flex flex-col justify-center items-center gap-2
+                text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition px-4 text-center"
+                >
                   {srv.points.map((p, idx) => (
                     <li key={idx}>• {p}</li>
                   ))}
@@ -143,7 +155,10 @@ export default function Home() {
               </div>
 
               <div className="p-5 text-center">
-                <div className="w-14 h-14 mx-auto mb-3 flex items-center justify-center text-2xl text-cyan-300 bg-cyan-400/20 rounded-xl">
+                <div
+                  className="w-14 h-14 mx-auto mb-3 flex items-center justify-center
+                text-2xl text-cyan-300 bg-cyan-400/20 rounded-xl"
+                >
                   {srv.icon}
                 </div>
                 <h3 className="text-lg font-semibold">{srv.title}</h3>
@@ -187,14 +202,26 @@ export default function Home() {
             transition={{ duration: 0.8 }}
             className="rounded-xl bg-white/5 border border-white/10 p-6"
           >
-            <img
-              src="/PhishShield.png"
-              alt="Cybersecurity"
-              className="w-full object-contain"
-            />
+            <img src="/PhishShield.png" className="w-full object-contain" />
           </motion.div>
         </div>
       </section>
+
+      {showVideo && (
+        <div className="fixed inset-0 z-50 bg-black/90 flex items-center justify-center px-4">
+          <div className="relative w-full max-w-4xl">
+            <button
+              onClick={() => setShowVideo(false)}
+              className="absolute -top-10 right-0 text-white text-xl"
+            >
+              ✕
+            </button>
+            <video controls autoPlay className="w-full rounded-xl">
+              <source src="/video.mp4" type="video/mp4" />
+            </video>
+          </div>
+        </div>
+      )}
     </div>
   )
 }
