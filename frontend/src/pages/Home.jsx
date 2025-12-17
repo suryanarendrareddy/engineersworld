@@ -77,7 +77,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white overflow-x-hidden">
-      <section className="relative h-[85vh] flex items-center justify-center overflow-hidden">
+      <section className="relative md:h-[85vh] h-[64vh] flex items-center justify-center overflow-hidden">
         <video
           autoPlay
           loop
@@ -121,7 +121,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={ref} className="py-20 max-w-7xl mx-auto px-6">
+      <section ref={ref} className="py-5 md:py-20 max-w-7xl mx-auto px-6">
         <motion.h2
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}

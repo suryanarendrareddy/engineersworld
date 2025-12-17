@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/suryanarendrareddy/engineersworld#readme",
+  "bugs": {
+    "url": "https://github.com/suryanarendrareddy/engineersworld/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suryanarendrareddy/engineersworld.git"
+  },
+  "license": "ISC",
+  "author": "Muli Surya Narendra Reddy",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  }
+}

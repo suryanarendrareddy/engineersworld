@@ -4,11 +4,32 @@ import { motion } from 'framer-motion'
 
 export default function Footer() {
   return (
-    <footer className="relative pt-20 pb-10 text-white bg-gradient-to-b from-[#0b1220] via-[#0a1a2f] to-[#020617] overflow-hidden">
+    <footer className="relative pt-20 pb-10 text-white bg-gradient-to-b from-[#05070a] via-[#040a11] to-[#020617] overflow-hidden">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute -top-20 left-0 w-72 h-72 bg-cyan-500/20 blur-[140px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-600/20 blur-[140px] rounded-full" />
 
+        {[...Array(40)].map((_, i) => (
+          <motion.div
+            key={i}
+            animate={{
+              opacity: [0.2, 0.6, 0.2],
+              x: [0, Math.sin(i) * 18],
+              y: [0, Math.cos(i) * 18],
+              scale: [0.7, 1, 0.7],
+            }}
+            transition={{
+              duration: 4 + i * 0.12,
+              repeat: Infinity,
+              ease: 'easeInOut',
+            }}
+            className="absolute w-2 h-2 bg-cyan-400/70 rounded-full blur-[2px]"
+            style={{
+              top: `${(i * 9) % 100}%`,
+              left: `${(i * 13) % 100}%`,
+            }}
+          />
+        ))}
       </div>
 
       <div className="relative max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12 px-6">
