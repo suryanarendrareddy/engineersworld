@@ -1,216 +1,186 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { FaPhone, FaEnvelope, FaMapMarkerAlt } from 'react-icons/fa'
-import emailjs from '@emailjs/browser'
+import axios from 'axios'
 import { toast } from 'sonner'
+import { PhoneInput } from 'react-international-phone'
+import 'react-international-phone/style.css'
+
+const API_URL = 'http://localhost:1727/api/contact'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    mobile: '',
     subject: '',
     message: '',
   })
 
-  const [status, setStatus] = useState('')
+  const [status, setStatus] = useState('idle')
 
   const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-    setStatus('sending')
+    if (status === 'sending') return
 
-    const loadingToast = toast.loading('Sending your message...')
+    setStatus('sending')
+    const toastId = toast.loading('Sending your message...')
 
     try {
-      await emailjs.send(
-        'YOUR_SERVICE_ID',
-        'YOUR_TEMPLATE_ID',
-        formData,
-        'YOUR_PUBLIC_KEY'
-      )
+      const { data } = await axios.post(API_URL, formData, {
+        headers: { 'Content-Type': 'application/json' },
+      })
 
+      toast.success(data.message || 'Message sent successfully 🎉', {
+        id: toastId,
+      })
+
+      setFormData({
+        name: '',
+        email: '',
+        mobile: '',
+        subject: '',
+        message: '',
+      })
       setStatus('success')
-      toast.success('Message sent successfully 🎉', { id: loadingToast })
-
-      setFormData({ name: '', email: '', subject: '', message: '' })
     } catch (err) {
+      toast.error(err.response?.data?.message || 'Message failed ❌ Try again later', {
+        id: toastId,
+      })
       setStatus('error')
-      toast.error('Message failed to send ❌', { id: loadingToast })
     }
   }
 
-  const fade = {
-    hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
-    show: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7 } },
-  }
-
   return (
-    <div className="min-h-screen bg-[#020617] text-white overflow-x-hidden">
+    <div className="min-h-screen bg-[#020617] text-white">
       <motion.header
-        variants={fade}
-        initial="hidden"
-        animate="show"
-        className="relative overflow-hidden h-[32vh] sm:h-[40vh] md:h-[52vh]
-        flex items-center justify-center text-center px-6
-        bg-gradient-to-br from-black via-slate-900 to-cyan-700/40 mt-10"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="h-[38vh] flex items-center justify-center text-center bg-gradient-to-br from-black via-slate-900 to-cyan-800/30 px-6"
       >
-        {[...Array(32)].map((_, i) => (
-          <motion.div
-            key={i}
-            initial={{ opacity: 0, scale: 0.4 }}
-            animate={{
-              opacity: [0.15, 0.8, 0.15],
-              scale: [0.7, 1.1, 0.7],
-              x: [0, Math.sin(i) * 40],
-              y: [0, Math.cos(i) * 40],
-            }}
-            transition={{
-              duration: 3 + i * 0.12,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
-            className="absolute w-2 h-2 bg-cyan-900/80 rounded-full blur-[2px]"
-            style={{
-              top: `${(i * 10) % 100}%`,
-              left: `${(i * 13) % 100}%`,
-            }}
-          />
-        ))}
-
         <div>
-          <motion.h1
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="text-4xl md:text-5xl font-extrabold
-            bg-gradient-to-r from-emerald-300 to-cyan-300
-            bg-clip-text text-transparent"
-          >
+          <h1 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
             Contact Us
-          </motion.h1>
-
-          <p className="mt-4 text-gray-300 text-sm sm:text-base px-3">
-            We reply quickly and love working with new clients & ideas.
+          </h1>
+          <p className="mt-3 text-gray-400 max-w-xl mx-auto">
+            Tell us about your requirements and we’ll get back to you shortly.
           </p>
         </div>
       </motion.header>
 
-      {/* MAIN CONTENT */}
-      <main
-        className="max-w-6xl mx-auto px-4 sm:px-6 py-16
-      grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-10"
-      >
-        {/* LEFT CONTACT INFO */}
-        <div className="space-y-6">
+      <main className="max-w-6xl mx-auto px-4 py-16 grid grid-cols-1 lg:grid-cols-3 gap-10">
+        <div className="space-y-5">
           {[
             { icon: <FaPhone />, title: 'Phone', value: '+91 79977 00218' },
             { icon: <FaEnvelope />, title: 'Email', value: 'info@engineersworld.in' },
             {
               icon: <FaMapMarkerAlt />,
               title: 'Office Address',
-              value: 'Journalist Colony, Nampally, Telangana, 505302',
+              value: 'Journalist Colony, Nampally, Telangana - 505302',
               title2: 'Registered Address',
-              value2: 'Venkampet Road, Sircilla, Telangana, 505301',
+              value2: 'Venkampet Road, Sircilla, Telangana - 505301',
             },
-          ].map((info, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.12 }}
-              whileHover={{ scale: 1.03, y: -6 }}
-              className="w-full p-4 sm:p-6 bg-white/5 backdrop-blur-xl
-              rounded-xl border border-white/10"
-            >
-              <div className="flex items-start gap-4">
-                <div className="text-emerald-300 text-2xl">{info.icon}</div>
-
+          ].map((item, i) => (
+            <div key={i} className="p-5 rounded-xl bg-white/5 border border-white/10">
+              <div className="flex gap-4">
+                <div className="text-emerald-300 text-xl">{item.icon}</div>
                 <div>
-                  <h3 className="font-bold">{info.title}</h3>
-                  <p className="text-gray-400 text-sm">{info.value}</p>
-
-                  {info.value2 && (
-                    <div className="mt-3">
-                      <p className="font-bold">{info.title2}</p>
-                      <p className="text-gray-400 text-sm">{info.value2}</p>
+                  <h3 className="font-medium">{item.title}</h3>
+                  <p className="text-gray-400 text-sm">{item.value}</p>
+                  {item.value2 && (
+                    <div className="mt-2">
+                      <p className="font-medium">{item.title2}</p>
+                      <p className="text-gray-400 text-sm">{item.value2}</p>
                     </div>
                   )}
                 </div>
               </div>
-            </motion.div>
+            </div>
           ))}
         </div>
 
-        {/* CONTACT FORM */}
         <motion.form
           onSubmit={handleSubmit}
-          initial={{ opacity: 0, y: 25 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-2 bg-white/5 backdrop-blur-xl
-          p-6 sm:p-8 rounded-xl border border-white/10 w-full"
+          className="lg:col-span-2 bg-white/5 p-8 sm:p-10 rounded-2xl border border-white/10"
         >
-          <h2 className="text-2xl font-semibold text-emerald-300 mb-6">Send a Message</h2>
+          <h2 className="text-2xl font-semibold text-emerald-300">Send a Message</h2>
+          <p className="text-gray-400 text-sm mt-1 mb-8">
+            Fill the form below and our team will contact you shortly.
+          </p>
 
-          {/* Name + Email */}
-          <div className="grid md:grid-cols-2 gap-4">
-            {['name', 'email'].map((field) => (
-              <div key={field}>
-                <label className="text-xs text-gray-300">{field.toUpperCase()}</label>
-                <input
-                  type={field === 'email' ? 'email' : 'text'}
-                  name={field}
-                  required
-                  value={formData[field]}
-                  onChange={handleChange}
-                  className="mt-1 w-full max-w-full px-4 py-3 rounded-lg
-                  bg-white/10 border border-white/10
-                  focus:border-emerald-400 outline-none transition"
-                />
-              </div>
-            ))}
+          <div className="grid sm:grid-cols-2 gap-5">
+            <input
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              placeholder="Full Name"
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white placeholder-gray-400 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none"
+            />
+
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              placeholder="Email Address"
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white placeholder-gray-400 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none"
+            />
           </div>
 
-          {/* SUBJECT */}
-          <div className="mt-4">
-            <label className="text-xs text-gray-300">SUBJECT</label>
+          <div className="mt-5">
+            <div className="p-2 text-xlrounded-lg bg-black/40 border border-white/10 focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-400">
+              <PhoneInput
+                defaultCountry="in"
+                value={formData.mobile}
+                onChange={(value) => setFormData({ ...formData, mobile: value || '' })}
+                inputClassName="!bg-transparent !text-white !outline-none !border-none px-4 py-3 w-full"
+                countrySelectorStyleProps={{
+                  buttonClassName: '!bg-transparent !border-none !text-white px-3',
+                }}
+              />
+            </div>
+          </div>
+
+          <div className="mt-5">
             <input
               name="subject"
               value={formData.subject}
               onChange={handleChange}
-              className="mt-1 w-full max-w-full px-4 py-3 rounded-lg
-              bg-white/10 border border-white/10
-              focus:border-emerald-400 outline-none transition"
+              placeholder="Subject (optional)"
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white placeholder-gray-400 focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none"
             />
           </div>
 
-          {/* MESSAGE */}
-          <div className="mt-4">
-            <label className="text-xs text-gray-300">MESSAGE</label>
+          <div className="mt-5">
             <textarea
-              rows="6"
+              rows="5"
               name="message"
               value={formData.message}
               onChange={handleChange}
               required
-              className="mt-1 w-full max-w-full px-4 py-3 rounded-lg
-              bg-white/10 border border-white/10
-              focus:border-emerald-400 outline-none transition resize-none"
+              placeholder="Write your message here..."
+              className="w-full px-4 py-3 rounded-lg bg-black/40 border border-white/10 text-white placeholder-gray-400 resize-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400 outline-none"
             />
           </div>
 
-          {/* BUTTON */}
-          <div className="mt-6 flex items-center gap-4">
+          <div className="mt-8 flex items-center gap-4">
             <motion.button
               type="submit"
               disabled={status === 'sending'}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="px-6 py-3 bg-emerald-400 text-black rounded-full font-semibold
-              disabled:opacity-50"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              className="px-10 py-3 bg-gradient-to-r from-emerald-400 to-cyan-400 text-black rounded-full font-semibold disabled:opacity-50"
             >
-              {status === 'sending' ? 'Sending...' : 'Send Message'}
+              {status === 'sending' ? 'Sending…' : 'Send Message'}
             </motion.button>
+            <span className="text-xs text-gray-400">We respect your privacy.</span>
           </div>
         </motion.form>
       </main>
