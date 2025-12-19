@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-const API_URL = 'http://localhost:1727/api/jobs/apply'
 
 const jobs = [
   {
@@ -100,7 +99,7 @@ export default function JobDetails() {
     const toastId = toast.loading('Submitting application...')
 
     try {
-      const res = await fetch(API_URL, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/jobs/apply`, {
         method: 'POST',
         body: formData,
       })

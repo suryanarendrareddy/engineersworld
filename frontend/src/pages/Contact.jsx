@@ -6,7 +6,6 @@ import { toast } from 'sonner'
 import { PhoneInput } from 'react-international-phone'
 import 'react-international-phone/style.css'
 
-const API_URL = 'http://localhost:1727/api/contact'
 
 export default function Contact() {
   const [formData, setFormData] = useState({
@@ -30,7 +29,7 @@ export default function Contact() {
     const toastId = toast.loading('Sending your message...')
 
     try {
-      const { data } = await axios.post(API_URL, formData, {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/contact`, formData, {
         headers: { 'Content-Type': 'application/json' },
       })
 

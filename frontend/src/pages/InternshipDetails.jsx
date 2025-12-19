@@ -139,7 +139,7 @@ export default function InternshipDetails() {
     const toastId = toast.loading('Submitting registration...')
 
     try {
-      const res = await fetch('http://localhost:1727/api/internships/apply', {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/internships/apply`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
