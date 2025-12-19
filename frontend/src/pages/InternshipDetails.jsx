@@ -3,108 +3,121 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-const MAINTENANCE_MODE = true
-
-function MaintenanceOverlay() {
-  return (
-    <div className="fixed inset-0 z-[9999] bg-black/90 backdrop-blur-md flex items-center justify-center px-6">
-      <div className="max-w-md text-center">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-emerald-300">
-          Under Maintenance
-        </h1>
-
-        <p className="mt-4 text-gray-100 text-lg leading-relaxed">
-          Internship applications are temporarily unavailable while we upgrade our systems.
-        </p>
-
-        <p className="mt-2 text-gray-200 text-md">Please check back soon.</p>
-
-        <div className="mt-6 h-[1px] bg-gradient-to-r from-transparent via-emerald-400/40 to-transparent" />
-
-        <p className="mt-6 text-sm text-gray-300">
-          Engineers World © {new Date().getFullYear()}
-        </p>
-      </div>
-    </div>
-  )
-}
-
-
 export default function InternshipDetails() {
-  const { id } = useParams()
+  const { slug } = useParams()
 
   const internships = [
     {
-      title: 'Full Stack Development Intern',
+      slug: 'full-stack-development-intern',
+      title: 'Full Stack Development Intern (Paid Internship)',
       description:
-        'Work on real-world full stack applications using React, Node.js, MongoDB and modern tooling.',
-      responsibilities: [
-        'Build responsive frontend components',
-        'Integrate REST APIs',
-        'Work with backend & database',
-        'Follow Git & agile workflow',
+        'This paid internship is a structured training program focused on building real-world full stack development skills. Interns learn by working on practical projects under mentor guidance, similar to industry workflows.',
+
+      learnings: [
+        'Frontend development using React and Tailwind CSS',
+        'Backend development with Node.js and Express',
+        'MongoDB database design and integration',
+        'REST API development and integration',
+        'Git, GitHub, and collaborative workflows',
       ],
-      requirements: [
-        'Basic HTML, CSS, JavaScript',
-        'React fundamentals',
-        'Problem-solving mindset',
-        'Willingness to learn',
+
+      highlights: [
+        'Mentor-led live training',
+        'Hands-on project-based learning',
+        'Industry-level coding practices',
+        'Internship certificate & project experience',
+      ],
+
+      eligibility: [
+        'Basic knowledge of HTML, CSS, JavaScript',
+        'Interest in full stack development',
+        'Willingness to learn and practice regularly',
       ],
     },
+
     {
-      title: 'Cybersecurity Intern',
+      slug: 'cybersecurity-intern',
+      title: 'Cybersecurity Intern (Paid Internship)',
       description:
-        'Hands-on exposure to cybersecurity tools, vulnerability analysis and incident reporting.',
-      responsibilities: [
-        'Assist in security audits',
-        'Vulnerability scanning',
-        'Learn penetration testing basics',
-        'Prepare security reports',
+        'A hands-on paid internship designed to introduce interns to real-world cybersecurity concepts, tools, and practices used by security professionals.',
+
+      learnings: [
+        'Fundamentals of cybersecurity and threat models',
+        'Vulnerability scanning and assessment',
+        'Introduction to penetration testing',
+        'Basic incident analysis and reporting',
       ],
-      requirements: [
+
+      highlights: [
+        'Exposure to real cybersecurity tools',
+        'Practical security labs',
+        'Guided learning from industry mentors',
+        'Certificate upon completion',
+      ],
+
+      eligibility: [
         'Basic networking knowledge',
         'Linux fundamentals',
-        'Interest in cybersecurity',
-        'Analytical thinking',
+        'Strong interest in cybersecurity',
       ],
     },
+
     {
-      title: 'Data Structures through Java',
+      slug: 'dsa-java-intern',
+      title: 'Data Structures & Algorithms Intern (Java)',
       description:
-        'Strengthen problem-solving skills by mastering DSA concepts using Java.',
-      responsibilities: [
-        'Solve DSA problems daily',
-        'Learn algorithms & complexity',
-        'Implement Java solutions',
-        'Participate in mock tests',
+        'This paid internship focuses on improving problem-solving skills through structured training in Data Structures and Algorithms using Java.',
+
+      learnings: [
+        'Core data structures (Arrays, Linked Lists, Trees, Graphs)',
+        'Algorithmic problem solving',
+        'Time & space complexity analysis',
+        'Java-based implementation techniques',
       ],
-      requirements: [
+
+      highlights: [
+        'Daily coding practice',
+        'Interview-oriented problem sets',
+        'Mock assessments',
+        'Strong foundation for placements',
+      ],
+
+      eligibility: [
         'Basic Java knowledge',
-        'Logical thinking',
-        'Consistency & practice',
-        'Interest in coding',
+        'Logical thinking ability',
+        'Interest in competitive programming',
       ],
     },
+
     {
-      title: 'Cloud Computing Intern',
+      slug: 'cloud-computing-intern',
+      title: 'Cloud Computing Intern (Paid Internship)',
       description:
-        'Learn cloud fundamentals, deployment strategies and real-world workflows.',
-      responsibilities: [
-        'Understand cloud services',
-        'Deploy sample applications',
-        'Learn CI/CD basics',
-        'Monitor cloud resources',
+        'A practical paid internship that introduces cloud fundamentals, deployment models, and real-world cloud workflows.',
+
+      learnings: [
+        'Cloud service models (IaaS, PaaS, SaaS)',
+        'Application deployment basics',
+        'Introduction to CI/CD pipelines',
+        'Monitoring and cloud resource management',
       ],
-      requirements: [
+
+      highlights: [
+        'Hands-on cloud labs',
+        'Real deployment scenarios',
+        'Industry-relevant skills',
+        'Internship certificate',
+      ],
+
+      eligibility: [
         'Basic computer networking',
-        'Interest in cloud platforms',
         'Linux fundamentals',
-        'Curiosity to explore',
+        'Interest in cloud technologies',
       ],
     },
   ]
 
-  const intern = internships[id]
+  const intern = internships.find((i) => i.slug === slug)
 
   const [form, setForm] = useState({
     name: '',
@@ -115,7 +128,7 @@ export default function InternshipDetails() {
 
   const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
 
     if (!form.name || !form.email || !form.phone) {
@@ -123,123 +136,186 @@ export default function InternshipDetails() {
       return
     }
 
-    toast.promise(new Promise((res) => setTimeout(res, 1500)), {
-      loading: 'Submitting your application...',
-      success: 'Application submitted successfully!',
-      error: 'Something went wrong!',
-    })
+    const toastId = toast.loading('Submitting registration...')
 
-    setForm({ name: '', email: '', phone: '', message: '' })
+    try {
+      const res = await fetch('http://localhost:1727/api/internships/apply', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          internshipTitle: intern.title,
+          internshipSlug: intern.slug,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim(),
+          message: form.message?.trim(),
+        }),
+      })
+
+      const data = await res.json()
+
+      if (!res.ok) {
+        throw new Error(data.message || 'Submission failed')
+      }
+
+      toast.success('Registration submitted successfully!', {
+        id: toastId,
+      })
+
+      setForm({
+        name: '',
+        email: '',
+        phone: '',
+        message: '',
+      })
+    } catch (err) {
+      toast.error(err.message || 'Something went wrong', {
+        id: toastId,
+      })
+    }
   }
+
 
   if (!intern) {
-    return <div className="text-white p-10">Invalid Internship ID</div>
-  }
-
-  const fade = {
-    hidden: { opacity: 0, y: 20, filter: 'blur(4px)' },
-    visible: {
-      opacity: 1,
-      y: 0,
-      filter: 'blur(0px)',
-      transition: { duration: 0.7, ease: 'easeOut' },
-    },
+    return <div className="text-white p-10">Invalid Internship</div>
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] text-white pb-20 overflow-x-hidden">
-      {MAINTENANCE_MODE && <MaintenanceOverlay />}
-
+    <div className="min-h-screen bg-[#020617] text-white pb-20">
       <motion.header
-        variants={fade}
-        initial="hidden"
-        animate="visible"
-        className="relative h-[42vh] md:h-[48vh] flex items-center justify-center text-center overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="h-[45vh] flex items-center justify-center text-center
+        bg-gradient-to-br from-black via-slate-900 to-cyan-700/40 px-4"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-black via-slate-900 to-cyan-700/40" />
-
-        <h1 className="relative z-10 text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent px-4">
+        <h1
+          className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r
+        from-emerald-300 to-cyan-300 bg-clip-text text-transparent"
+        >
           {intern.title}
         </h1>
       </motion.header>
 
-      <main className="max-w-5xl mx-auto px-4 sm:px-6 mt-14">
-        <motion.section variants={fade} initial="hidden" animate="visible">
-          <h2 className="text-2xl font-bold text-emerald-300">Internship Overview</h2>
-
+      <main className="max-w-5xl mx-auto px-6 mt-14 space-y-14">
+        <section>
+          <h2 className="text-2xl font-bold text-emerald-300">Program Overview</h2>
           <p className="mt-3 text-gray-300">{intern.description}</p>
+        </section>
 
-          <h3 className="mt-8 text-xl font-semibold text-emerald-300">
-            Responsibilities
+        <section>
+          <h3 className="text-xl font-semibold text-emerald-300">What You Will Learn</h3>
+          <ul className="mt-3 space-y-2 text-gray-300">
+            {intern.learnings.map((l, i) => (
+              <li key={i}>• {l}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className="text-xl font-semibold text-emerald-300">Training Highlights</h3>
+          <ul className="mt-3 space-y-2 text-gray-300">
+            {intern.highlights.map((h, i) => (
+              <li key={i}>• {h}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section>
+          <h3 className="text-xl font-semibold text-emerald-300">Eligibility</h3>
+          <ul className="mt-3 space-y-2 text-gray-300">
+            {intern.eligibility.map((e, i) => (
+              <li key={i}>• {e}</li>
+            ))}
+          </ul>
+        </section>
+
+        <section className="bg-white/5 p-8 md:p-10 rounded-2xl border border-white/10">
+          <h3 className="text-2xl font-bold text-emerald-300 mb-2">
+            Paid Internship Registration
           </h3>
 
-          <ul className="mt-2 space-y-2 text-gray-300">
-            {intern.responsibilities.map((r, i) => (
-              <li key={i}>• {r}</li>
-            ))}
-          </ul>
+          <p className="text-sm text-gray-400 mb-8">
+            This is a paid training program. Our team will contact shortlisted candidates.
+          </p>
 
-          <h3 className="mt-8 text-xl font-semibold text-emerald-300">Requirements</h3>
-
-          <ul className="mt-2 space-y-2 text-gray-300">
-            {intern.requirements.map((r, i) => (
-              <li key={i}>• {r}</li>
-            ))}
-          </ul>
-        </motion.section>
-
-        <motion.section
-          variants={fade}
-          initial="hidden"
-          animate="visible"
-          className="mt-14 bg-white/5 p-6 sm:p-8 rounded-xl border border-white/10 backdrop-blur-xl"
-        >
-          <h2 className="text-2xl font-bold text-emerald-300 mb-6">Apply Now</h2>
-
-          <form onSubmit={handleSubmit} className="space-y-5">
-            <div className="grid sm:grid-cols-2 gap-4">
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-gray-300">Full Name *</label>
               <input
                 name="name"
-                placeholder="Full Name *"
                 value={form.name}
                 onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-emerald-400 outline-none"
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email *"
-                value={form.email}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-emerald-400 outline-none"
+                placeholder="Enter your full name"
+                className="rounded-lg bg-[#020617] border border-white/15 px-4 py-3
+                text-white placeholder-gray-500 focus:outline-none
+                focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
               />
             </div>
 
-            <input
-              name="phone"
-              placeholder="Phone *"
-              value={form.phone}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-emerald-400 outline-none"
-            />
+            {/* Email */}
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-gray-300">Email Address *</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="example@email.com"
+                className="rounded-lg bg-[#020617] border border-white/15 px-4 py-3
+                text-white placeholder-gray-500 focus:outline-none
+                focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              />
+            </div>
 
-            <textarea
-              rows="4"
-              name="message"
-              placeholder="Message (Optional)"
-              value={form.message}
-              onChange={handleChange}
-              className="w-full px-4 py-3 rounded-lg bg-white/10 border border-white/10 focus:border-emerald-400 outline-none resize-none"
-            />
+            {/* Phone */}
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm text-gray-300">Phone Number *</label>
+              <input
+                name="phone"
+                value={form.phone}
+                onChange={handleChange}
+                placeholder="+91 XXXXX XXXXX"
+                className="rounded-lg bg-[#020617] border border-white/15 px-4 py-3
+                text-white placeholder-gray-500 focus:outline-none
+                focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+              />
+            </div>
 
-            <button
-              disabled
-              className="w-full sm:w-auto px-8 py-3 rounded-full bg-emerald-400 text-black font-semibold opacity-60 cursor-not-allowed"
+            <div className="flex flex-col gap-1 md:col-span-2">
+              <label className="text-sm text-gray-300">Message (optional)</label>
+              <textarea
+                name="message"
+                rows="4"
+                value={form.message}
+                onChange={handleChange}
+                placeholder="Tell us about your interest in this training"
+                className="rounded-lg bg-[#020617] border border-white/15 px-4 py-3
+                text-white placeholder-gray-500 resize-none focus:outline-none
+                focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+              />
+            </div>
+
+            <div
+              className="md:col-span-2 flex flex-col items-center gap-3 mt-6
+                sm:flex-row sm:items-center sm:justify-start"
             >
-              Submit Application
-            </button>
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="w-full sm:w-[20rem] px-10 py-3 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-black font-semibold shadow-lg text-center"
+              >
+                Register Now
+              </motion.button>
+
+              <span className="text-xs text-gray-400 text-center sm:text-left">
+                Limited seats • Paid training program
+              </span>
+            </div>
           </form>
-        </motion.section>
+        </section>
       </main>
     </div>
   )

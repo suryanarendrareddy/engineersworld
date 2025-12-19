@@ -18,6 +18,8 @@ connectDB()
 const PORT = process.env.PORT || 8000
 
 app.use('/api/contact', require('./routes/contactRoutes'))
+app.use('/api/jobs', require('./routes/jobApplicationRoutes'))
+app.use('/api/internships', require('./routes/internshipRoutes'))
 
 app.listen(PORT, () => {
   console.log(`Server is running on PORT ${PORT}`)

@@ -1,4 +1,4 @@
-const Contact = require('../models/contact')
+const Contact = require('../models/Contact')
 const sendEmail = require('../utils/sendEmail')
 const validateEmail = require('../utils/validateEmail')
 const { parsePhoneNumberFromString } = require('libphonenumber-js')

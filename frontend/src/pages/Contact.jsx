@@ -113,7 +113,7 @@ export default function Contact() {
             Fill the form below and our team will contact you shortly.
           </p>
 
-          <div className="grid sm:grid-cols-2 gap-5">
+          <div className="grid md:grid-cols-2 gap-5">
             <input
               name="name"
               value={formData.name}
@@ -135,7 +135,7 @@ export default function Contact() {
           </div>
 
           <div className="mt-5">
-            <div className="p-2 text-xlrounded-lg bg-black/40 border border-white/10 focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-400">
+            <div className="p-2 text-xl rounded-lg bg-black/40 border border-white/10 focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-400">
               <PhoneInput
                 defaultCountry="in"
                 value={formData.mobile}
@@ -170,13 +170,13 @@ export default function Contact() {
             />
           </div>
 
-          <div className="mt-8 flex items-center gap-4">
+          <div className="mt-8 flex items-center gap-4 flex-col">
             <motion.button
               type="submit"
               disabled={status === 'sending'}
               whileHover={{ scale: 1.03 }}
               whileTap={{ scale: 0.97 }}
-              className="px-10 py-3 bg-gradient-to-r from-emerald-400 to-cyan-400 text-black rounded-full font-semibold disabled:opacity-50"
+              className="w-full px-10 py-3 bg-gradient-to-br from-emerald-300 to-cyan-500 text-black rounded-full font-semibold disabled:opacity-50 text-[16px]"
             >
               {status === 'sending' ? 'Sending…' : 'Send Message'}
             </motion.button>
