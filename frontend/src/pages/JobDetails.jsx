@@ -137,7 +137,6 @@ export default function JobDetails() {
       </motion.header>
 
       <main className="max-w-5xl mx-auto px-6 mt-14">
-        {/* JOB DETAILS */}
         <section>
           <h2 className="text-2xl font-bold text-emerald-300">Job Description</h2>
           <p className="mt-3 text-gray-300">{job.description}</p>
