@@ -159,23 +159,25 @@ export default function JobDetails() {
           </ul>
         </section>
 
-        {/* APPLICATION FORM */}
-        <section className="mt-14 bg-white/5 p-10 rounded-2xl border border-white/10">
-          <h2 className="text-3xl font-bold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent mb-8">
-            Apply Now
+        <section className="mt-14 bg-white/5 p-6 sm:p-8 md:p-10 rounded-2xl border border-white/10">
+          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+            Apply for this Position
           </h2>
 
-          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <p className="text-sm text-gray-400 mt-2 mb-8 max-w-2xl">
+            Fill in your details below. Our hiring team will review your application
+            carefully.
+          </p>
+
+          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
             <div className="flex flex-col gap-1">
               <label className="text-sm text-gray-300">Full Name *</label>
               <input
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                placeholder="Enter your full name"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3
-                text-white placeholder-gray-500 focus:outline-none
-                focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                placeholder="Your full name"
+                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
               />
             </div>
 
@@ -186,67 +188,59 @@ export default function JobDetails() {
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="example@mail.com"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3
-                text-white placeholder-gray-500 focus:outline-none
-                focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                placeholder="you@example.com"
+                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
               />
             </div>
 
-            <div className="flex flex-col gap-1 md:col-span-2">
+            <div className="flex flex-col gap-1">
               <label className="text-sm text-gray-300">Phone Number *</label>
               <input
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
                 placeholder="+91 XXXXX XXXXX"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3
-                text-white placeholder-gray-500 focus:outline-none
-                focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
               />
             </div>
 
-            <div className="flex flex-col gap-1 md:col-span-2">
-              <label className="text-sm text-gray-300">Resume (PDF / DOC) *</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-gray-300">Upload Resume *</label>
               <input
                 type="file"
                 name="resume"
                 accept=".pdf,.doc,.docx"
                 onChange={handleChange}
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-2
-                text-gray-300 file:mr-4 file:rounded-md file:border-0
-                file:bg-emerald-400 file:px-4 file:py-2
-                file:text-black file:font-semibold hover:file:bg-emerald-300"
+                className="w-full rounded-lg bg-[#020617] border border-white/15 px-3 py-2.5 text-sm text-gray-300 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-400 file:px-4 file:py-2 file:text-black file:font-semibold active:file:bg-emerald-300"
               />
+              <span className="text-xs text-gray-500 mt-1">
+                Accepted formats: PDF, DOC, DOCX
+              </span>
             </div>
-
-            <div className="flex flex-col gap-1 md:col-span-2">
-              <label className="text-sm text-gray-300">Message</label>
+            <div className="flex flex-col gap-1">
+              <label className="text-sm text-gray-300">Message (Optional)</label>
               <textarea
                 name="message"
                 rows="4"
                 value={form.message}
                 onChange={handleChange}
-                placeholder="Tell us why you are a good fit"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3
-                text-white placeholder-gray-500 resize-none focus:outline-none
-                focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                placeholder="Briefly tell us why you’re a good fit"
+                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 resize-none focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
               />
             </div>
 
-            <div className="md:col-span-2 flex items-center gap-4 mt-4">
+            <div className="mt-4 flex flex-col gap-3">
               <motion.button
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-10 py-3 rounded-full bg-gradient-to-r
-                from-emerald-400 to-cyan-400 text-black font-semibold shadow-lg"
+                type="submit"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.97 }}
+                className="w-full px-10 py-4 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-black font-semibold text-base shadow-lg"
               >
                 Submit Application
               </motion.button>
-
-              <span className="text-xs text-gray-400">
-                We respect your privacy. Your data is secure.
-              </span>
+              <p className="text-xs text-gray-400 text-center">
+                Your information is secure and will not be shared.
+              </p>
             </div>
           </form>
         </section>

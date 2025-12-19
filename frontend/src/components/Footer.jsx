@@ -31,7 +31,7 @@ const quickLinks = [
 
 export default function Footer() {
   return (
-    <footer className="relative pt-20 pb-10 bg-gradient-to-b from-[#05070a] via-[#040a11] to-[#020617] text-white overflow-hidden">
+    <footer className="relative pt-20 pb-10 bg-gradient-to-br from-[#020617] via-[#040a16] to-[#020617] text-white overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute -top-24 left-0 w-72 h-72 bg-cyan-500/20 blur-[140px] rounded-full" />
         <div className="absolute bottom-0 right-0 w-64 h-64 bg-purple-600/20 blur-[140px] rounded-full" />
