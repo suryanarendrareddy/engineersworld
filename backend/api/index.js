@@ -5,6 +5,7 @@ const connectDB = require('../config/db')
 
 dotenv.config()
 
+const PORT = process.env.PORT||1727
 const app = express()
 
 app.use(express.json())
@@ -12,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URI],
+    origin: process.env.FRONTEND_URI || '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
   })
@@ -21,7 +22,7 @@ app.use(
 connectDB()
 
 app.get('/', (req, res) => {
-  res.send('Hello World')
+  res.send('EngineersWorld Backend Running')
 })
 
 app.use('/api/contact', require('../routes/contactRoutes'))
@@ -32,7 +33,7 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', server: 'EngineersWorld Backend' })
 })
 
-const PORT = process.env.PORT || 8000
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+app.listen(PORT, () =>{
+  console.log("server is running")
 })
+module.exports = app
