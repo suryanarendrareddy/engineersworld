@@ -1,61 +1,93 @@
 const JobApplication = require('../models/JobApplication')
 const sendJobApplicationEmail = require('../utils/sendJobApplicationEmail')
+const validateEmail = require('../utils/validateEmail')
+
+const normalizePhone = (phone = '') => phone.replace(/\s+/g, '')
 
 const applyForJob = async (req, res) => {
   try {
-    const { jobTitle, jobSlug, name, email, phone, message } = req.body
+    let { jobTitle, jobSlug, name, email, phone, message } = req.body
+
+    name = name?.trim()
+    email = email?.trim()
+    phone = normalizePhone(phone)
+    message = message?.trim()
 
     if (!jobTitle || !jobSlug || !name || !email || !phone) {
       return res.status(400).json({
-        message: 'Job title, job slug, name, email and phone are required',
+        success: false,
+        message: 'Job title, name, email, and phone are required',
+      })
+    }
+
+    if (!validateEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email address',
+      })
+    }
+
+    if (!/^\+?[0-9]{8,15}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid phone number. Use country code (e.g. +91XXXXXXXXXX)',
       })
     }
 
     if (!req.file || !req.file.path) {
       return res.status(400).json({
-        message: 'Resume is required (PDF / DOC)',
+        success: false,
+        message: 'Resume is required (PDF / DOC / DOCX)',
+      })
+    }
+
+    const existingApplication = await JobApplication.findOne({
+      jobSlug,
+      $or: [{ email }, { phone }],
+    })
+
+    if (existingApplication) {
+      return res.status(409).json({
+        success: false,
+        message: 'You have already applied for this job using this email or phone number',
       })
     }
 
     const resumeUrl = req.file.path
     const resumePublicId = req.file.filename || req.file.public_id
 
-    const application = await JobApplication.create({
-      jobTitle: jobTitle.trim(),
-      jobSlug: jobSlug.trim(),
-      name: name.trim(),
-      email: email.trim(),
-      phone: phone.trim(),
-      message: message?.trim(),
+    await JobApplication.create({
+      jobTitle,
+      jobSlug,
+      name,
+      email,
+      phone,
+      message,
       resumeUrl,
       resumePublicId,
       ipAddress: req.ip,
     })
 
-    try {
-      await sendJobApplicationEmail({
-        jobTitle,
-        jobSlug,
-        name,
-        email,
-        phone,
-        message,
-        resumeUrl,
-      })
-    } catch (emailError) {
-      console.error('Job email failed:', emailError.message)
-    }
+    sendJobApplicationEmail({
+      jobTitle,
+      jobSlug,
+      name,
+      email,
+      phone,
+      message,
+      resumeUrl,
+    }).catch((err) => console.error('Job application email failed:', err.message))
 
     return res.status(201).json({
       success: true,
-      message: 'Application submitted successfully',
-      applicationId: application._id,
+      message: 'Job application submitted successfully',
     })
   } catch (error) {
     console.error('Job Application Error:', error)
 
     return res.status(500).json({
-      message: 'Server Error',
+      success: false,
+      message: 'Internal server error',
     })
   }
 }

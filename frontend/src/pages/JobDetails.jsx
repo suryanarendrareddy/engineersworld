@@ -3,50 +3,52 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
-
 const jobs = [
   {
     slug: 'business-development-associate',
     title: 'Business Development Associate',
     description:
-      'We are looking for a dynamic and motivated Business Development Associate to grow partnerships, communicate with clients, and expand company reach.',
+      'We are looking for a dynamic and motivated Business Development Associate to build partnerships, communicate with clients, and drive company growth.',
     responsibilities: [
-      'Identify new business opportunities',
-      'Build long-term client relationships',
-      'Create proposals and presentations',
-      'Work closely with the management team',
+      'Identify and pursue new business opportunities',
+      'Build and maintain long-term client relationships',
+      'Prepare proposals, presentations, and reports',
+      'Collaborate closely with leadership and strategy teams',
     ],
     requirements: [
-      'Strong communication & negotiation skills',
-      'Basic understanding of sales & marketing',
-      'Self-motivated and growth-oriented',
+      'Excellent communication and negotiation skills',
+      'Basic understanding of sales and marketing',
+      'Self-driven with a growth-oriented mindset',
     ],
   },
   {
     slug: 'website-developer',
-    title: 'Website Developer',
+    title: 'Full Stack web Development',
     description:
-      'We need a skilled Web Developer to build modern, responsive, high-performance websites.',
+      'We are seeking a skilled Website Developer to build modern, responsive, and high-performance web applications.',
     responsibilities: [
-      'Develop responsive UI using React / TailwindCSS',
-      'Optimize performance and SEO',
-      'Debug and maintain web applications',
+      'Develop responsive user interfaces using React and Tailwind CSS',
+      'Optimize applications for performance and SEO',
+      'Debug, maintain, and improve existing applications',
     ],
-    requirements: ['Strong knowledge of React / TailwindCSS', 'Basic knowledge of APIs'],
+    requirements: [
+      'Strong experience with React and Tailwind CSS',
+      'Basic understanding of REST APIs',
+    ],
   },
   {
     slug: 'cyber-security-analyst',
     title: 'Cyber Security Analyst',
     description:
-      'We are hiring a Cyber Security Analyst to identify vulnerabilities and secure systems.',
+      'We are hiring a Cyber Security Analyst to identify vulnerabilities and help secure our infrastructure.',
     responsibilities: [
-      'Monitor infrastructure for threats',
-      'Perform penetration testing',
-      'Incident response',
+      'Monitor systems and networks for security threats',
+      'Conduct vulnerability assessments and penetration testing',
+      'Assist in incident response and reporting',
     ],
     requirements: [
-      'Knowledge of networking & Linux',
-      'Understanding of firewalls, IDS/IPS',
+      'Knowledge of networking and Linux',
+      'Understanding of firewalls, IDS, and IPS',
     ],
   },
 ]
@@ -62,6 +64,8 @@ export default function JobDetails() {
     message: '',
     resume: null,
   })
+
+  const [submitting, setSubmitting] = useState(false)
 
   if (!job) {
     return (
@@ -81,33 +85,74 @@ export default function JobDetails() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (submitting) return
 
-    if (!form.name || !form.email || !form.phone || !form.resume) {
-      toast.error('All required fields must be filled')
+    const name = form.name.trim()
+    const email = form.email.trim()
+    const phone = form.phone.replace(/\s+/g, '')
+    const message = form.message.trim()
+    const resume = form.resume
+
+    if (!name || !email || !phone || !message || !resume) {
+      toast.error('All fields are required')
       return
     }
 
-    const formData = new FormData()
-    formData.append('jobTitle', job.title)
-    formData.append('jobSlug', job.slug)
-    formData.append('name', form.name)
-    formData.append('email', form.email)
-    formData.append('phone', form.phone)
-    formData.append('message', form.message)
-    formData.append('resume', form.resume)
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+      toast.error('Please enter a valid email address')
+      return
+    }
 
+    if (!/^\+?[0-9]{8,15}$/.test(phone)) {
+      toast.error('Enter a valid phone number with country code (e.g. +91XXXXXXXXXX)')
+      return
+    }
+
+    const allowedTypes = [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ]
+
+    if (!allowedTypes.includes(resume.type)) {
+      toast.error('Resume must be PDF, DOC, or DOCX')
+      return
+    }
+
+    const maxSize = 5 * 1024 * 1024
+    if (resume.size > maxSize) {
+      toast.error('Resume file size must be under 5MB')
+      return
+    }
+
+    setSubmitting(true)
     const toastId = toast.loading('Submitting application...')
 
     try {
+      const formData = new FormData()
+      formData.append('jobTitle', job.title)
+      formData.append('jobSlug', job.slug)
+      formData.append('name', name)
+      formData.append('email', email)
+      formData.append('phone', phone)
+      formData.append('message', message)
+      formData.append('resume', resume)
+
       const res = await fetch(`${import.meta.env.VITE_API_URL}/api/jobs/apply`, {
         method: 'POST',
         body: formData,
       })
 
       const data = await res.json()
-      if (!res.ok) throw new Error(data.message)
 
-      toast.success('Application submitted successfully 🎉', { id: toastId })
+      if (!res.ok) {
+        throw new Error(data.message || 'Submission failed')
+      }
+
+      toast.success(data.message || 'Application submitted successfully 🎉', {
+        id: toastId,
+      })
 
       setForm({
         name: '',
@@ -118,126 +163,188 @@ export default function JobDetails() {
       })
     } catch (err) {
       toast.error(err.message || 'Something went wrong', { id: toastId })
+    } finally {
+      setSubmitting(false)
     }
   }
 
+
+
+
   return (
-    <div className="min-h-screen bg-[#020617] text-white pb-20">
+    <div className="min-h-screen bg-[#020617] text-white pb-24">
       {/* HEADER */}
       <motion.header
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         className="h-[45vh] flex items-center justify-center text-center
-        bg-gradient-to-br from-black via-slate-900 to-cyan-700/40"
+        bg-gradient-to-br from-black via-slate-900 to-cyan-700/40 px-6"
       >
-        <h1 className="text-4xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+        <h1
+          className="text-4xl md:text-5xl font-extrabold
+          bg-gradient-to-r from-emerald-300 to-cyan-300
+          bg-clip-text text-transparent"
+        >
           {job.title}
         </h1>
       </motion.header>
 
-      <main className="max-w-5xl mx-auto px-6 mt-14">
-        <section>
-          <h2 className="text-2xl font-bold text-emerald-300">Job Description</h2>
-          <p className="mt-3 text-gray-300">{job.description}</p>
+      <main className="max-w-5xl mx-auto px-6 mt-16 space-y-16">
+        {/* JOB INFO */}
+        <section className="space-y-8">
+          <div>
+            <h2 className="text-2xl font-bold text-emerald-300">Job Overview</h2>
+            <p className="mt-3 text-gray-300 leading-relaxed">{job.description}</p>
+          </div>
 
-          <h3 className="mt-8 text-xl font-semibold text-emerald-300">
-            Responsibilities
-          </h3>
-          <ul className="mt-2 space-y-2 text-gray-300">
-            {job.responsibilities.map((r, i) => (
-              <li key={i}>• {r}</li>
-            ))}
-          </ul>
+          <div>
+            <h3 className="text-xl font-semibold text-emerald-300">
+              Key Responsibilities
+            </h3>
+            <ul className="mt-3 space-y-2 text-gray-300">
+              {job.responsibilities.map((r, i) => (
+                <li key={i}>• {r}</li>
+              ))}
+            </ul>
+          </div>
 
-          <h3 className="mt-8 text-xl font-semibold text-emerald-300">Requirements</h3>
-          <ul className="mt-2 space-y-2 text-gray-300">
-            {job.requirements.map((r, i) => (
-              <li key={i}>• {r}</li>
-            ))}
-          </ul>
+          <div>
+            <h3 className="text-xl font-semibold text-emerald-300">Requirements</h3>
+            <ul className="mt-3 space-y-2 text-gray-300">
+              {job.requirements.map((r, i) => (
+                <li key={i}>• {r}</li>
+              ))}
+            </ul>
+          </div>
         </section>
 
-        <section className="mt-14 bg-white/5 p-6 sm:p-8 md:p-10 rounded-2xl border border-white/10">
-          <h2 className="text-2xl md:text-3xl font-bold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+        {/* APPLICATION FORM */}
+        <section
+          className="bg-gradient-to-br from-white/10 via-white/5 to-white/10
+          backdrop-blur-xl rounded-2xl border border-white/15
+          p-6 sm:p-10 shadow-[0_20px_60px_rgba(0,0,0,0.35)]"
+        >
+          <h2
+            className="text-2xl md:text-3xl font-bold
+            bg-gradient-to-r from-emerald-300 to-cyan-300
+            bg-clip-text text-transparent"
+          >
             Apply for this Position
           </h2>
 
-          <p className="text-sm text-gray-400 mt-2 mb-8 max-w-2xl">
-            Fill in your details below. Our hiring team will review your application
-            carefully.
+          <p className="mt-3 mb-10 text-gray-400 max-w-2xl">
+            Please complete the form below. Our hiring team will carefully review your
+            application and contact shortlisted candidates.
           </p>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-6">
-            <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-300">Full Name *</label>
+          <form onSubmit={handleSubmit} className="space-y-6">
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">
+                Full Name <span className="text-red-500">*</span>
+              </label>
               <input
                 name="name"
                 value={form.name}
                 onChange={handleChange}
-                placeholder="Your full name"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                required
+                placeholder="Enter your full name"
+                className="w-full px-5 py-3 rounded-lg bg-black/40
+                border border-white/15 text-white
+                focus:outline-none focus:border-emerald-400
+                focus:ring-1 focus:ring-emerald-400"
               />
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-300">Email Address *</label>
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">
+                Email Address <span className="text-red-500">*</span>
+              </label>
               <input
                 type="email"
                 name="email"
                 value={form.email}
                 onChange={handleChange}
-                placeholder="you@example.com"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                required
+                placeholder="Enter your email address"
+                className="w-full px-5 py-3 rounded-lg bg-black/40
+                border border-white/15 text-white
+                focus:outline-none focus:border-cyan-400
+                focus:ring-1 focus:ring-cyan-400"
               />
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-300">Phone Number *</label>
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">
+                Phone Number <span className="text-red-500">*</span>
+              </label>
               <input
                 name="phone"
                 value={form.phone}
                 onChange={handleChange}
-                placeholder="+91 XXXXX XXXXX"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 focus:outline-none focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+                required
+                placeholder="Enter Mobile Number with country code"
+                className="w-full px-5 py-3 rounded-lg bg-black/40
+                border border-white/15 text-white
+                focus:outline-none focus:border-emerald-400
+                focus:ring-1 focus:ring-emerald-400"
               />
             </div>
 
-            <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-300">Upload Resume *</label>
+            <div>
+              <label className="block text-sm text-gray-300 mb-2">
+                Upload Resume <span className="text-red-500">*</span>
+              </label>
               <input
                 type="file"
                 name="resume"
                 accept=".pdf,.doc,.docx"
                 onChange={handleChange}
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-3 py-2.5 text-sm text-gray-300 file:mr-3 file:rounded-md file:border-0 file:bg-emerald-400 file:px-4 file:py-2 file:text-black file:font-semibold active:file:bg-emerald-300"
+                required
+                className="w-full rounded-lg bg-black/40 border border-white/15
+                px-3 py-2.5 text-sm text-gray-300
+                file:mr-4 file:rounded-md file:border-0
+                file:bg-emerald-400 file:px-5 file:py-2
+                file:text-black file:font-semibold
+                active:file:bg-emerald-300"
               />
-              <span className="text-xs text-gray-500 mt-1">
-                Accepted formats: PDF, DOC, DOCX
-              </span>
+              <p className="mt-1 text-xs text-gray-500">
+                Accepted formats: PDF, DOC, DOCX (Max 10MB)
+              </p>
             </div>
-            <div className="flex flex-col gap-1">
-              <label className="text-sm text-gray-300">Message (Optional)</label>
+
+            <div>
+              <label className="block text-sm text-gray-300 mb-1">
+                Why should we hire you for this role?{' '}
+                <span className="text-red-500">*</span>
+              </label>
               <textarea
-                name="message"
                 rows="4"
+                name="message"
                 value={form.message}
                 onChange={handleChange}
-                placeholder="Briefly tell us why you’re a good fit"
-                className="w-full rounded-lg bg-[#020617] border border-white/15 px-4 py-3.5 text-base text-white placeholder-gray-500 resize-none focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+                placeholder="Briefly tell us why you’re a good fit for this role"
+                className="w-full px-5 py-3 rounded-lg bg-black/40
+                border border-white/15 text-white resize-none
+                focus:outline-none focus:border-cyan-400
+                focus:ring-1 focus:ring-cyan-400"
               />
             </div>
 
-            <div className="mt-4 flex flex-col gap-3">
+            <div className="pt-6 flex flex-col gap-3">
               <motion.button
                 type="submit"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                className="w-full px-10 py-4 rounded-full bg-gradient-to-r from-emerald-400 to-cyan-400 text-black font-semibold text-base shadow-lg"
+                disabled={submitting}
+                whileHover={!submitting ? { scale: 1.04 } : {}}
+                whileTap={!submitting ? { scale: 0.96 } : {}}
+                className="w-full py-4 rounded-full font-semibold text-base
+                bg-gradient-to-r from-emerald-400 to-cyan-400
+                text-black shadow-xl disabled:opacity-50"
               >
-                Submit Application
+                {submitting ? 'Submitting...' : 'Submit Application'}
               </motion.button>
+
               <p className="text-xs text-gray-400 text-center">
-                Your information is secure and will not be shared.
+                Your information will be kept confidential.
               </p>
             </div>
           </form>

@@ -2,25 +2,42 @@ const InternshipApplication = require('../models/InternshipApplication')
 const sendInternshipApplicationEmail = require('../utils/sendInternshipApplicationEmail')
 const validateEmail = require('../utils/validateEmail')
 
-const normalizePhone = (phone) => phone.replace(/\s+/g, '')
+const normalizePhone = (phone) => {
+  if (!phone) return ''
+  return String(phone).replace(/\s+/g, '')
+}
 
 const applyForInternship = async (req, res) => {
   try {
+    console.log('REQ BODY:', req.body)
+
     let { internshipTitle, internshipSlug, name, email, phone, message } = req.body
 
     name = name?.trim()
     email = email?.trim()
-    phone = normalizePhone(phone || '')
     message = message?.trim()
 
-    if (!internshipTitle || !internshipSlug || !name || !email || !phone) {
+    if (!internshipTitle || !internshipSlug || !name || !email || !phone || !message) {
       return res.status(400).json({
-        message: 'Internship title, slug, name, email and phone are required',
+        success: false,
+        message: 'All fields are required',
       })
     }
 
-    if (!validateEmail(email)) {
-      return res.status(400).json({ message: 'Invalid email address' })
+    phone = normalizePhone(phone)
+
+    if (typeof validateEmail !== 'function' || !validateEmail(email)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid email address',
+      })
+    }
+
+    if (!/^\+?[0-9]{8,15}$/.test(phone)) {
+      return res.status(400).json({
+        success: false,
+        message: 'Invalid phone number',
+      })
     }
 
     const existingApplication = await InternshipApplication.findOne({
@@ -30,13 +47,15 @@ const applyForInternship = async (req, res) => {
 
     if (existingApplication) {
       return res.status(409).json({
-        message: 'You have already applied for this internship',
+        success: false,
+        message:
+          'You have already applied for this internship using this email or phone number.',
       })
     }
 
     await InternshipApplication.create({
-      internshipTitle: internshipTitle.trim(),
-      internshipSlug: internshipSlug.trim(),
+      internshipTitle,
+      internshipSlug,
       name,
       email,
       phone,
@@ -44,22 +63,38 @@ const applyForInternship = async (req, res) => {
       ipAddress: req.ip,
     })
 
-    sendInternshipApplicationEmail({
-      internshipTitle,
-      internshipSlug,
-      name,
-      email,
-      phone,
-      message,
-    }).catch((err) => console.error('Internship mail failed:', err.message))
+    try {
+      await sendInternshipApplicationEmail({
+        internshipTitle,
+        internshipSlug,
+        name,
+        email,
+        phone,
+        message,
+      })
+    } catch (err) {
+      console.error('Email failed:', err.message)
+    }
 
     return res.status(201).json({
       success: true,
       message: 'Internship registration submitted successfully',
     })
   } catch (error) {
-    console.error('Internship Application Error:', error)
-    return res.status(500).json({ message: 'Server Error' })
+    console.error('🔥 INTERNSHIP ERROR STACK:', error)
+
+    if (error.code === 11000) {
+      return res.status(409).json({
+        success: false,
+        message:
+          'You have already applied for this internship using this email or phone number.',
+      })
+    }
+
+    return res.status(500).json({
+      success: false,
+      message: error.message || 'Server error',
+    })
   }
 }
 

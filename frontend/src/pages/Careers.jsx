@@ -13,7 +13,7 @@ export default function Careers() {
       type: 'Full-time',
     },
     {
-      title: 'Website Developer',
+      title: 'Full Stack Web Development',
       slug: 'website-developer',
       type: 'Full-time',
     },

@@ -5,30 +5,28 @@ const { parsePhoneNumberFromString } = require('libphonenumber-js')
 
 const createContact = async (req, res) => {
   try {
-    let { name, email, phone, subject, message } = req.body
+    let { name, email, mobile, subject, message } = req.body
 
     name = name?.trim()
     email = email?.trim()
-    phone = phone?.trim()
+    mobile = mobile?.trim()
     subject = subject?.trim()
     message = message?.trim()
 
-    if (!name || !email || !phone || !message) {
-      return res.status(400).json({
-        message: 'Name, email, phone and message are required',
-      })
+    if (!name || !email || !mobile || !message) {
+      return res
+        .status(400)
+        .json({ message: 'Name, email, mobile and message are required' })
     }
 
     if (!validateEmail(email)) {
       return res.status(400).json({ message: 'Invalid email address' })
     }
 
-    const parsedPhone = parsePhoneNumberFromString(phone)
+    const parsedPhone = parsePhoneNumberFromString(mobile)
 
     if (!parsedPhone || !parsedPhone.isValid()) {
-      return res.status(400).json({
-        message: 'Invalid mobile number with country code',
-      })
+      return res.status(400).json({ message: 'Invalid mobile number with country code' })
     }
 
     if (message.length < 10) {
@@ -52,7 +50,7 @@ const createContact = async (req, res) => {
     await Contact.create({
       name,
       email,
-      phone: parsedPhone.number,
+      mobile: parsedPhone.number,
       countryCode: `+${parsedPhone.countryCallingCode}`,
       subject: subject || 'General Enquiry',
       message,
@@ -62,11 +60,11 @@ const createContact = async (req, res) => {
     sendEmail({
       name,
       email,
-      phone: parsedPhone.number,
+      mobile: parsedPhone.number,
       subject: subject || 'General Enquiry',
       message,
       ipAddress: req.ip,
-    }).catch((err) => console.error('Contact email failed:', err.message))
+    }).catch(() => {})
 
     return res.status(201).json({
       success: true,
