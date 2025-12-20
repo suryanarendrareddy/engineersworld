@@ -5,7 +5,6 @@ const connectDB = require('../config/db')
 
 dotenv.config()
 
-const PORT = process.env.PORT||1727
 const app = express()
 
 app.use(express.json())
@@ -33,7 +32,5 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', server: 'EngineersWorld Backend' })
 })
 
-app.listen(PORT, () =>{
-  console.log("server is running")
-})
+
 module.exports = app
