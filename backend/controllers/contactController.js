@@ -1,21 +1,20 @@
 const Contact = require('../models/contact')
-const sendEmail = require('../utils/sendEmail')
-const validateEmail = require('../utils/validateEmail')
+const { sendEmail, validateEmail } = require('../utils/sendEmail')
 const { parsePhoneNumberFromString } = require('libphonenumber-js')
 
 const createContact = async (req, res) => {
   try {
-    let { name, email, mobile, subject, message } = req.body
+    let { name, email, phone, subject, message } = req.body
 
     name = name?.trim()
     email = email?.trim()
-    mobile = mobile?.trim()
+    phone = phone?.trim()
     subject = subject?.trim()
     message = message?.trim()
 
-    if (!name || !email || !mobile || !message) {
+    if (!name || !email || !phone || !message) {
       return res.status(400).json({
-        message: 'Name, email, mobile and message are required',
+        message: 'Name, email, phone and message are required',
       })
     }
 
@@ -23,11 +22,11 @@ const createContact = async (req, res) => {
       return res.status(400).json({ message: 'Invalid email address' })
     }
 
-    const phone = parsePhoneNumberFromString(mobile)
+    const parsedPhone = parsePhoneNumberFromString(phone)
 
-    if (!phone || !phone.isValid()) {
+    if (!parsedPhone || !parsedPhone.isValid()) {
       return res.status(400).json({
-        message: 'Invalid mobile number with country code',
+        message: 'Invalid phone number with country code',
       })
     }
 
@@ -52,20 +51,25 @@ const createContact = async (req, res) => {
     await Contact.create({
       name,
       email,
-      mobile: phone.number,
-      countryCode: `+${phone.countryCallingCode}`,
+      phone: parsedPhone.number,
+      countryCode: `+${parsedPhone.countryCallingCode}`,
       subject: subject || 'General Enquiry',
       message,
       ipAddress: req.ip,
     })
 
-    await sendEmail({
-      name,
-      email,
-      mobile: phone.number,
-      subject: subject || 'General Enquiry',
-      message,
-    })
+    try {
+      await sendEmail({
+        name,
+        email,
+        phone: parsedPhone.number,
+        subject: subject || 'General Enquiry',
+        message,
+        ipAddress: req.ip,
+      })
+    } catch (mailErr) {
+      console.error('Email failed:', mailErr)
+    }
 
     res.status(201).json({
       success: true,

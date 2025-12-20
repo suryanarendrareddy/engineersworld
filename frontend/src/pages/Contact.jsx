@@ -11,7 +11,7 @@ export default function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    mobile: '',
+    phone: '',
     subject: '',
     message: '',
   })
@@ -40,7 +40,7 @@ export default function Contact() {
       setFormData({
         name: '',
         email: '',
-        mobile: '',
+        phone: '',
         subject: '',
         message: '',
       })
@@ -137,8 +137,8 @@ export default function Contact() {
             <div className="p-2 text-xl rounded-lg bg-black/40 border border-white/10 focus-within:border-emerald-400 focus-within:ring-1 focus-within:ring-emerald-400">
               <PhoneInput
                 defaultCountry="in"
-                value={formData.mobile}
-                onChange={(value) => setFormData({ ...formData, mobile: value || '' })}
+                value={formData.phone}
+                onChange={(value) => setFormData({ ...formData, phone: value || '' })}
                 inputClassName="!bg-transparent !text-white !outline-none !border-none px-4 py-3 w-full"
                 countrySelectorStyleProps={{
                   buttonClassName: '!bg-transparent !border-none !text-white px-3',

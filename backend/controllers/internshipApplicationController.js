@@ -23,16 +23,20 @@ const applyForInternship = async (req, res) => {
       return res.status(400).json({ message: 'Invalid email address' })
     }
 
-    const existingApplication = InternshipApplication.findOne({
-      $or:[{email}, {phone}],
+    const existingApplication = await InternshipApplication.findOne({
       internshipSlug,
+      $or: [{ email }, { phone }],
     })
-    if(existingApplication){
-      return res.status(409).json({message : 'Form already filled for this internship'})
+
+    if (existingApplication) {
+      return res.status(409).json({
+        message: 'You have already applied for this internship',
+      })
     }
+
     await InternshipApplication.create({
-      internshipTitle,
-      internshipSlug,
+      internshipTitle: internshipTitle.trim(),
+      internshipSlug: internshipSlug.trim(),
       name,
       email,
       phone,
@@ -49,13 +53,13 @@ const applyForInternship = async (req, res) => {
       message,
     }).catch((err) => console.error('Internship mail failed:', err.message))
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Internship registration submitted successfully',
     })
   } catch (error) {
     console.error('Internship Application Error:', error)
-    res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: 'Server Error' })
   }
 }
 

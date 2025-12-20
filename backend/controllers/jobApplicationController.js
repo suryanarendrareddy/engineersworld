@@ -13,13 +13,14 @@ const applyForJob = async (req, res) => {
 
     if (!req.file || !req.file.path) {
       return res.status(400).json({
-        message: 'Resume is required (PDF/DOC)',
+        message: 'Resume is required (PDF / DOC)',
       })
     }
+
     const resumeUrl = req.file.path
     const resumePublicId = req.file.filename || req.file.public_id
 
-    await JobApplication.create({
+    const application = await JobApplication.create({
       jobTitle: jobTitle.trim(),
       jobSlug: jobSlug.trim(),
       name: name.trim(),
@@ -31,19 +32,24 @@ const applyForJob = async (req, res) => {
       ipAddress: req.ip,
     })
 
-    await sendJobApplicationEmail({
-      jobTitle,
-      jobSlug,
-      name,
-      email,
-      phone,
-      message,
-      resumeUrl,
-    })
+    try {
+      await sendJobApplicationEmail({
+        jobTitle,
+        jobSlug,
+        name,
+        email,
+        phone,
+        message,
+        resumeUrl,
+      })
+    } catch (emailError) {
+      console.error('Job email failed:', emailError.message)
+    }
 
     return res.status(201).json({
       success: true,
       message: 'Application submitted successfully',
+      applicationId: application._id,
     })
   } catch (error) {
     console.error('Job Application Error:', error)
