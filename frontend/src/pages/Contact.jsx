@@ -29,7 +29,7 @@ export default function Contact() {
     const toastId = toast.loading('Sending your message...')
 
     try {
-      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/contact`, formData, {
+      const { data } = await axios.post(`${import.meta.env.VITE_API_URL}/api/contact`, formData, {
         headers: { 'Content-Type': 'application/json' },
       })
 

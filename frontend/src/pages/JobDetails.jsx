@@ -99,7 +99,7 @@ export default function JobDetails() {
     const toastId = toast.loading('Submitting application...')
 
     try {
-      const res = await fetch(`${import.meta.env.VITE_API_URL}/jobs/apply`, {
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/jobs/apply`, {
         method: 'POST',
         body: formData,
       })
