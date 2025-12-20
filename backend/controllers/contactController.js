@@ -1,5 +1,6 @@
 const Contact = require('../models/contact')
-const { sendEmail, validateEmail } = require('../utils/sendEmail')
+const sendEmail = require('../utils/sendEmail')
+const validateEmail = require('../utils/validateEmail')
 const { parsePhoneNumberFromString } = require('libphonenumber-js')
 
 const createContact = async (req, res) => {
@@ -26,7 +27,7 @@ const createContact = async (req, res) => {
 
     if (!parsedPhone || !parsedPhone.isValid()) {
       return res.status(400).json({
-        message: 'Invalid phone number with country code',
+        message: 'Invalid mobile number with country code',
       })
     }
 
@@ -58,26 +59,22 @@ const createContact = async (req, res) => {
       ipAddress: req.ip,
     })
 
-    try {
-      await sendEmail({
-        name,
-        email,
-        phone: parsedPhone.number,
-        subject: subject || 'General Enquiry',
-        message,
-        ipAddress: req.ip,
-      })
-    } catch (mailErr) {
-      console.error('Email failed:', mailErr)
-    }
+    sendEmail({
+      name,
+      email,
+      phone: parsedPhone.number,
+      subject: subject || 'General Enquiry',
+      message,
+      ipAddress: req.ip,
+    }).catch((err) => console.error('Contact email failed:', err.message))
 
-    res.status(201).json({
+    return res.status(201).json({
       success: true,
       message: 'Message sent successfully',
     })
   } catch (error) {
     console.error('Contact Error:', error)
-    res.status(500).json({ message: 'Server Error' })
+    return res.status(500).json({ message: 'Server Error' })
   }
 }
 
