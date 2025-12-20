@@ -1,7 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const dotenv = require('dotenv')
-const connectDB = require('../config/db')
+const connectDB = require('./config/db')
 
 dotenv.config()
 
@@ -24,9 +24,9 @@ app.get('/', (req, res) => {
   res.send('EngineersWorld Backend Running')
 })
 
-app.use('/api/contact', require('../routes/contactRoutes'))
-app.use('/api/jobs', require('../routes/jobApplicationRoutes'))
-app.use('/api/internships', require('../routes/internshipRoutes'))
+app.use('/api/contact', require('./routes/contactRoutes'))
+app.use('/api/jobs', require('./routes/jobApplicationRoutes'))
+app.use('/api/internships', require('./routes/internshipRoutes'))
 
 app.get('/api/health', (req, res) => {
   res.json({ status: 'OK', server: 'EngineersWorld Backend' })
