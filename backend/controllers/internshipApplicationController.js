@@ -9,7 +9,6 @@ const normalizePhone = (phone) => {
 
 const applyForInternship = async (req, res) => {
   try {
-    console.log('REQ BODY:', req.body)
 
     let { internshipTitle, internshipSlug, name, email, phone, message } = req.body
 
