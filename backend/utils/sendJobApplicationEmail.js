@@ -1,27 +1,25 @@
-const nodemailer = require('nodemailer')
+const { Resend } = require('resend')
 const axios = require('axios')
 const path = require('path')
 
-module.exports = async ({ jobTitle, name, email, phone, message, resumeUrl }) => {
-  const transporter = nodemailer.createTransport({
-    host: process.env.MAIL_HOST,
-    port: 587,
-    secure: false,
-    auth: {
-      user: process.env.MAIL_USER,
-      pass: process.env.MAIL_PASS,
-    },
-    connectionTimeout: 10000,
-    greetingTimeout: 10000,
-  })
+const resend = new Resend(process.env.RESEND_API_KEY)
+
+module.exports = async ({
+  jobTitle,
+  name,
+  email,
+  phone,
+  message,
+  resumeUrl,
+}) => {
+  if (!process.env.RESEND_API_KEY || !process.env.ADMIN_MAIL) {
+    throw new Error('Resend environment variables missing')
+  }
 
   const response = await axios.get(resumeUrl, {
     responseType: 'arraybuffer',
     maxContentLength: Infinity,
     maxBodyLength: Infinity,
-    headers: {
-      Accept: 'application/pdf',
-    },
   })
 
   const fileExt = path.extname(resumeUrl).split('?')[0] || '.pdf'
@@ -29,8 +27,8 @@ module.exports = async ({ jobTitle, name, email, phone, message, resumeUrl }) =>
   const uniqueId = Date.now()
   const fileName = `Resume_${safeName}_${uniqueId}${fileExt}`
 
-  await transporter.sendMail({
-    from: `"Engineers World Careers" <${process.env.MAIL_USER}>`,
+  return await resend.emails.send({
+    from: 'Engineers World Careers <onboarding@resend.dev>',
     to: process.env.ADMIN_MAIL,
     replyTo: email,
     subject: `New Job Application – ${jobTitle}`,
@@ -85,7 +83,7 @@ module.exports = async ({ jobTitle, name, email, phone, message, resumeUrl }) =>
     attachments: [
       {
         filename: fileName,
-        content: Buffer.from(response.data),
+        content: Buffer.from(response.data).toString('base64'),
         contentType: 'application/pdf',
       },
     ],

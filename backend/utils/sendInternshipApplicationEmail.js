@@ -1,4 +1,6 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend')
+
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 module.exports = async ({
   internshipTitle,
@@ -7,20 +9,12 @@ module.exports = async ({
   phone,
   message,
 }) => {
-  if(!process.env.MAIL_USER || !process.env.ADMIN_MAIL) return
+  if (!process.env.RESEND_API_KEY || !process.env.ADMIN_MAIL) {
+    throw new Error('Resend environment variables missing')
+  }
 
-  const transporter = nodemailer.createTransport({
-    host:process.env.MAIL_HOST,
-    port:587,
-    secure:false,
-    auth:{
-      user:process.env.MAIL_USER,
-      pass:process.env.MAIL_PASS
-    },
-    connectionTimeout:10000,
-  })
-  await transporter.sendMail({
-    from: `"Engineers World – Training Program" <${process.env.MAIL_USER}>`,
+  return await resend.emails.send({
+    from: 'Engineers World <onboarding@resend.dev>',
     to: process.env.ADMIN_MAIL,
     replyTo: email,
     subject: `New Paid Internship Registration – ${internshipTitle}`,
