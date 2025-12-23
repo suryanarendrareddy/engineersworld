@@ -24,7 +24,6 @@ export default defineConfig({
       '@': '/src',
     },
   },
-  base: './',
   optimizeDeps: {
     esbuildOptions: {
       jsx: 'automatic',
