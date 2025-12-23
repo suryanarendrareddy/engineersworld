@@ -184,12 +184,12 @@ export default function InternshipDetails() {
 
   return (
     <div className="min-h-screen bg-[#020617] text-white pb-24">
-      {/* HEADER */}
+      
       <motion.header
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="
-          h-[32vh] md:h-[45vh]
+          h-[45vh] md:h-[45vh]
           flex items-center justify-center text-center
           bg-gradient-to-br from-black via-slate-900 to-cyan-700/40
           px-4
@@ -305,14 +305,7 @@ function ListSection({ title, items }) {
 }
 
 
-function FloatingInput({
-  label,
-  name,
-  type = 'text',
-  value,
-  onChange,
-  required,
-}) {
+function FloatingInput({ label, name, type = 'text', value, onChange, required }) {
   const inputId = `input-${name}`
 
   return (
@@ -325,7 +318,7 @@ function FloatingInput({
         onChange={onChange}
         required={required}
         className="
-          w-full px-4 py-3 rounded-lg
+          peer w-full px-4 pt-5 pb-2 rounded-lg
           bg-black/40 text-white
           border border-white/15
           focus:outline-none focus:border-emerald-400
@@ -335,17 +328,17 @@ function FloatingInput({
 
       <label
         htmlFor={inputId}
-        className={`
-          absolute left-4 transition-all duration-200
+        className="
+          absolute left-4 top-3 text-sm text-gray-400
+          transition-all duration-200
           bg-[#020617] px-1
-          ${value
-            ? '-top-2 text-xs text-emerald-300'
-            : 'top-3 text-sm text-gray-400'
-          }
-        `}
+          peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-300
+          peer-not-placeholder-shown:-top-2
+          peer-not-placeholder-shown:text-xs
+          peer-not-placeholder-shown:text-emerald-300
+        "
       >
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {label}{required && <span className="text-red-500 ml-1">*</span>}
       </label>
     </div>
   )
@@ -363,9 +356,11 @@ function FloatingTextarea({ label, name, value, onChange, required }) {
         onChange={onChange}
         required={required}
         rows="4"
+        placeholder=" "
         className="
-          w-full bg-[#020617]/80 border border-white/20
-          rounded-xl px-4 py-4 text-white resize-none
+          peer w-full px-4 pt-6 pb-2 rounded-xl
+          bg-[#020617]/80 text-white resize-none
+          border border-white/20
           focus:outline-none focus:border-cyan-400
           focus:ring-1 focus:ring-cyan-400
         "
@@ -373,21 +368,24 @@ function FloatingTextarea({ label, name, value, onChange, required }) {
 
       <label
         htmlFor={inputId}
-        className={`
-          absolute left-4 transition-all duration-200
+        className="
+          absolute left-4 top-4 text-sm text-gray-400
+          transition-all duration-200
           bg-[#020617] px-1
-          ${value
-            ? '-top-2 text-xs text-cyan-400'
-            : 'top-3 text-sm text-gray-400'
-          }
-        `}
+          peer-focus:-top-2 peer-focus:text-xs peer-focus:text-cyan-400
+          peer-not-placeholder-shown:-top-2
+          peer-not-placeholder-shown:text-xs
+          peer-not-placeholder-shown:text-cyan-400
+        "
       >
-        {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {label}{required && <span className="text-red-500 ml-1">*</span>}
       </label>
     </div>
   )
 }
+
+
+
 
 
 
