@@ -13,40 +13,112 @@ export default function InternshipDetails() {
       description:
         'A structured, mentor-led paid internship focused on building real-world full-stack development skills through hands-on projects and guided learning.',
       learnings: [
-        'React & Tailwind CSS',
-        'Node.js & Express',
-        'MongoDB & REST APIs',
-        'Git & GitHub workflows',
+        'HTML, CSS, JavaScript fundamentals',
+        'React & Tailwind CSS for frontend development',
+        'Node.js & Express.js for backend development',
+        'MongoDB & REST API integration',
+        'Authentication, authorization & middleware',
+        'Git & GitHub collaborative workflows',
       ],
       highlights: [
         'Hands-on real-world projects',
         'Industry-level coding practices',
-        'Mentor guidance',
-        'Internship certificate',
+        'Mentor guidance & code reviews',
+        'Deployment & production basics',
+        'Internship completion certificate',
       ],
       eligibility: [
-        'Basic HTML, CSS, JavaScript',
+        'Basic HTML, CSS, JavaScript knowledge',
         'Strong interest in full-stack development',
+        'Willingness to learn and practice daily',
       ],
     },
+
     {
       slug: 'cybersecurity-intern',
       title: 'Cybersecurity Intern (Paid Internship)',
       description:
-        'Hands-on cybersecurity internship covering real-world security tools, concepts, and guided practical labs.',
+        'Hands-on cybersecurity internship covering real-world security tools, concepts, and guided practical labs to understand and defend against modern cyber threats.',
       learnings: [
-        'Cybersecurity fundamentals',
-        'Vulnerability assessment',
-        'Basic penetration testing',
+        'Cybersecurity fundamentals & threat models',
+        'Networking basics (TCP/IP, DNS, HTTP/HTTPS)',
+        'Linux fundamentals for security',
+        'Vulnerability assessment techniques',
+        'Introduction to penetration testing',
+        'Security tools and incident response basics',
       ],
       highlights: [
         'Practical security labs',
-        'Mentor support',
+        'Real-world attack & defense scenarios',
+        'Mentor-led guidance',
+        'Industry exposure to security practices',
         'Completion certificate',
       ],
-      eligibility: ['Basic networking', 'Linux fundamentals'],
+      eligibility: [
+        'Basic networking knowledge',
+        'Linux fundamentals',
+        'Interest in cybersecurity & ethical hacking',
+      ],
+    },
+
+    {
+      slug: 'dsa-java-intern',
+      title: 'Data Structures & Algorithms (Java) Intern (Paid Internship)',
+      description:
+        'A focused internship program designed to build strong problem-solving skills using Data Structures and Algorithms with Java, preparing candidates for technical interviews and real-world software development.',
+      learnings: [
+        'Java programming fundamentals',
+        'Time & space complexity analysis',
+        'Arrays, Strings, Recursion',
+        'Linked Lists, Stacks, Queues',
+        'Trees, Binary Search Trees, Heaps',
+        'Graphs & Graph traversal algorithms',
+        'Sorting & searching algorithms',
+        'Problem-solving and coding interview patterns',
+      ],
+      highlights: [
+        'Daily DSA problem-solving practice',
+        'Interview-oriented approach',
+        'Mentor explanations for each concept',
+        'Optimized coding techniques',
+        'Internship completion certificate',
+      ],
+      eligibility: [
+        'Basic Java knowledge',
+        'Interest in problem-solving',
+        'Students preparing for placements or interviews',
+      ],
+    },
+
+    {
+      slug: 'cloud-computing-intern',
+      title: 'Cloud Computing Intern (Paid Internship)',
+      description:
+        'A practical cloud computing internship focused on understanding cloud concepts, services, and deployment models used by modern organizations.',
+      learnings: [
+        'Cloud computing fundamentals',
+        'Cloud service models (IaaS, PaaS, SaaS)',
+        'Virtual machines & storage concepts',
+        'Cloud networking basics',
+        'Introduction to AWS / Azure / GCP services',
+        'Deployment and scalability basics',
+        'Cloud security fundamentals',
+      ],
+      highlights: [
+        'Hands-on cloud labs',
+        'Real-world deployment scenarios',
+        'Understanding cloud infrastructure',
+        'Mentor-led sessions',
+        'Internship completion certificate',
+      ],
+      eligibility: [
+        'Basic computer networking knowledge',
+        'Interest in cloud technologies',
+        'Willingness to learn infrastructure concepts',
+      ],
     },
   ]
+
 
   const intern = internships.find((i) => i.slug === slug)
 
@@ -59,11 +131,11 @@ export default function InternshipDetails() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleChange = (e) =>
-    setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
+  const handleChange = (e) => setForm((p) => ({ ...p, [e.target.name]: e.target.value }))
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    if (isSubmitting) return
 
     if (!form.name || !form.email || !form.phone || !form.message) {
       toast.error('Please fill all required fields')
@@ -74,11 +146,29 @@ export default function InternshipDetails() {
     const toastId = toast.loading('Submitting application...')
 
     try {
-      await new Promise((r) => setTimeout(r, 800))
-      toast.success('Application submitted successfully!', { id: toastId })
+      const res = await fetch(`${import.meta.env.VITE_API_URL}/api/internships/apply`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          internshipTitle: intern.title,
+          internshipSlug: intern.slug,
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.replace(/\s+/g, ''),
+          message: form.message.trim(),
+        }),
+      })
+
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.message || 'Request failed')
+
+      toast.success(data.message || 'Application submitted successfully!', {
+        id: toastId,
+      })
+
       setForm({ name: '', email: '', phone: '', message: '' })
-    } catch {
-      toast.error('Server error', { id: toastId })
+    } catch (err) {
+      toast.error(err.message || 'Server error', { id: toastId })
     } finally {
       setIsSubmitting(false)
     }
@@ -98,27 +188,33 @@ export default function InternshipDetails() {
       <motion.header
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="h-[32vh] md:h-[45vh] flex items-center justify-center text-center
-        bg-gradient-to-br from-black via-slate-900 to-cyan-700/40 px-4"
+        className="
+          h-[32vh] md:h-[45vh]
+          flex items-center justify-center text-center
+          bg-gradient-to-br from-black via-slate-900 to-cyan-700/40
+          px-4
+        "
       >
-        <h1 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r
-        from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-5xl font-extrabold bg-gradient-to-r from-emerald-300 to-cyan-300 bg-clip-text text-transparent">
           {intern.title}
         </h1>
       </motion.header>
 
-      <main className="max-w-5xl mx-auto px-4 md:px-6 mt-12 space-y-16">
+      <main className="max-w-5xl mx-auto px-4 md:px-6 mt-10 md:mt-16 space-y-12 md:space-y-16">
         <InfoSection title="Program Overview" content={intern.description} />
         <ListSection title="What You Will Learn" items={intern.learnings} />
         <ListSection title="Training Highlights" items={intern.highlights} />
         <ListSection title="Eligibility" items={intern.eligibility} />
 
         {/* FORM */}
-        <section className="bg-gradient-to-br from-white/10 via-white/5 to-white/10
-        backdrop-blur-xl p-6 md:p-10 rounded-3xl border border-white/15 shadow-2xl">
-          <h3 className="text-2xl font-bold text-emerald-300">
-            Internship Registration
-          </h3>
+        <section
+          className="
+            bg-gradient-to-br from-white/10 via-white/5 to-white/10
+            backdrop-blur-xl p-6 md:p-10 rounded-3xl
+            border border-white/15 shadow-2xl
+          "
+        >
+          <h3 className="text-2xl font-bold text-emerald-300">Internship Registration</h3>
 
           <p className="text-sm text-gray-400 mt-2 mb-8">
             Limited seats • Paid training + internship program
@@ -163,11 +259,14 @@ export default function InternshipDetails() {
               disabled={isSubmitting}
               whileHover={!isSubmitting ? { scale: 1.05 } : {}}
               whileTap={!isSubmitting ? { scale: 0.95 } : {}}
-              className={`w-full py-4 rounded-full text-lg font-semibold shadow-xl
-                ${isSubmitting
-                  ? 'bg-gray-500 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-black'
-                }`}
+              className={`
+                w-full py-4 rounded-full text-lg font-semibold shadow-xl
+                ${
+                  isSubmitting
+                    ? 'bg-gray-500 cursor-not-allowed'
+                    : 'bg-gradient-to-r from-emerald-400 to-cyan-400 text-black'
+                }
+              `}
             >
               {isSubmitting ? 'Submitting…' : 'Register Now'}
             </motion.button>
@@ -182,7 +281,6 @@ export default function InternshipDetails() {
   )
 }
 
-/* ---------- SECTIONS ---------- */
 
 function InfoSection({ title, content }) {
   return (
@@ -206,70 +304,90 @@ function ListSection({ title, items }) {
   )
 }
 
-/* ---------- FLOATING INPUT ---------- */
 
-function FloatingInput({ label, name, type = 'text', value, onChange, required }) {
-  const id = `input-${name}`
-  const active = value.length > 0
+function FloatingInput({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  required,
+}) {
+  const inputId = `input-${name}`
 
   return (
     <div className="relative">
       <input
-        id={id}
+        id={inputId}
         name={name}
         type={type}
         value={value}
         onChange={onChange}
         required={required}
-        className="w-full px-4 py-3 rounded-lg bg-black/40 text-white
-        border border-white/15 focus:outline-none
-        focus:border-emerald-400 focus:ring-1 focus:ring-emerald-400"
+        className="
+          w-full px-4 py-3 rounded-lg
+          bg-black/40 text-white
+          border border-white/15
+          focus:outline-none focus:border-emerald-400
+          focus:ring-1 focus:ring-emerald-400
+        "
       />
 
       <label
-        htmlFor={id}
-        className={`absolute left-4 px-1 bg-[#020617] transition-all
-        ${active
+        htmlFor={inputId}
+        className={`
+          absolute left-4 transition-all duration-200
+          bg-[#020617] px-1
+          ${value
             ? '-top-2 text-xs text-emerald-300'
             : 'top-3 text-sm text-gray-400'
-          }`}
+          }
+        `}
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
     </div>
   )
 }
 
-/* ---------- FLOATING TEXTAREA ---------- */
-
 function FloatingTextarea({ label, name, value, onChange, required }) {
-  const id = `textarea-${name}`
-  const active = value.length > 0
+  const inputId = `input-${name}`
 
   return (
     <div className="relative">
       <textarea
-        id={id}
+        id={inputId}
         name={name}
         value={value}
         onChange={onChange}
-        rows="4"
         required={required}
-        className="w-full px-4 pt-6 pb-3 rounded-xl bg-[#020617]/80
-        text-white resize-none border border-white/20
-        focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400"
+        rows="4"
+        className="
+          w-full bg-[#020617]/80 border border-white/20
+          rounded-xl px-4 py-4 text-white resize-none
+          focus:outline-none focus:border-cyan-400
+          focus:ring-1 focus:ring-cyan-400
+        "
       />
 
       <label
-        htmlFor={id}
-        className={`absolute left-4 px-1 bg-[#020617] transition-all
-        ${active
-            ? '-top-2 text-xs text-cyan-300'
+        htmlFor={inputId}
+        className={`
+          absolute left-4 transition-all duration-200
+          bg-[#020617] px-1
+          ${value
+            ? '-top-2 text-xs text-cyan-400'
             : 'top-3 text-sm text-gray-400'
-          }`}
+          }
+        `}
       >
-        {label} {required && <span className="text-red-500">*</span>}
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
     </div>
   )
 }
+
+
+
