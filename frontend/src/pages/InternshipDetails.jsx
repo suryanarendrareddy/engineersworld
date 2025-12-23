@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion } from 'framer-motion'
 import { toast } from 'sonner'
 
@@ -205,7 +205,6 @@ export default function InternshipDetails() {
   )
 }
 
-/* ---------- REUSABLE UI ---------- */
 
 function InfoSection({ title, content }) {
   return (
@@ -229,43 +228,75 @@ function ListSection({ title, items }) {
   )
 }
 
-function FloatingInput({ label, type = 'text', ...props }) {
+
+function FloatingInput({
+  label,
+  name,
+  type = 'text',
+  value,
+  onChange,
+  required,
+}) {
+  const inputRef = useRef(null)
+  const inputId = `input-${name}`
+
   return (
-    <div className="relative">
+    <div
+      onClick={() => inputRef.current?.focus()}
+      className="relative cursor-text"
+    >
       <input
+        ref={inputRef}
+        id={inputId}
+        name={name}
         type={type}
-        {...props}
+        value={value}
+        onChange={onChange}
+        required={required}
         placeholder=" "
         className="
-          peer w-full bg-[#020617]/80 border border-white/20
-          rounded-xl px-4 pt-7 pb-3 text-white
+          peer w-full px-4 py-3 rounded-lg
+          bg-black/40 text-white
+          border border-white/15
           focus:outline-none focus:border-emerald-400
           focus:ring-1 focus:ring-emerald-400
         "
       />
+
       <label
+        htmlFor={inputId}
         className="
-          absolute left-4 top-3 text-sm text-gray-400
+          absolute left-4 top-3 text-gray-400 text-sm
           transition-all duration-200
-          peer-placeholder-shown:top-6
-          peer-placeholder-shown:text-base
-          peer-placeholder-shown:text-gray-500
-          peer-focus:top-3
-          peer-focus:text-sm
-          peer-focus:text-emerald-400
+          pointer-events-none
+          peer-focus:-top-2 peer-focus:text-xs peer-focus:text-emerald-300
+          peer-placeholder-shown:top-3 peer-placeholder-shown:text-sm
+          peer-placeholder-shown:text-gray-400
+          bg-[#020617] px-1
         "
       >
-        {label} *
+        {label}
+        {required && <span className="text-red-500 ml-1">*</span>}
       </label>
     </div>
   )
 }
 
-function FloatingTextarea({ label, ...props }) {
+
+
+function FloatingTextarea({ label, name, ...props }) {
+  const inputRef = useRef(null)
+  const inputId = `input-${name}`
+
   return (
-    <div className="relative">
+    <div
+      className="relative cursor-text"
+      onClick={() => inputRef.current?.focus()}
+    >
       <textarea
         {...props}
+        id={inputId}
+        ref={inputRef}
         rows="4"
         placeholder=" "
         className="
@@ -275,10 +306,12 @@ function FloatingTextarea({ label, ...props }) {
           focus:ring-1 focus:ring-cyan-400
         "
       />
+
       <label
+        htmlFor={inputId}
         className="
           absolute left-4 top-3 text-sm text-gray-400
-          transition-all duration-200
+          transition-all duration-200 pointer-events-none
           peer-placeholder-shown:top-6
           peer-placeholder-shown:text-base
           peer-placeholder-shown:text-gray-500
@@ -292,3 +325,5 @@ function FloatingTextarea({ label, ...props }) {
     </div>
   )
 }
+
+
