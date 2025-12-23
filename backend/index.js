@@ -10,29 +10,14 @@ const app = express()
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
-const allowedOrigins = [
-  'http://localhost:3000',
-  'https://engineersworld.in',
-  'https://www.engineersworld.in',
-]
-
 app.use(
   cors({
-    origin: (origin, callback) => {
-      if (!origin) return callback(null, true)
-      if (allowedOrigins.includes(origin)) {
-        return callback(null, true)
-      }
-      return callback(new Error('CORS not allowed'), false)
-    },
+    origin: process.env.FRONTEND_URI || '*',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 )
-console.log('RESEND_API_KEY exists:', !!process.env.RESEND_API_KEY)
-console.log('ADMIN_MAIL:', process.env.ADMIN_MAIL)
-
-
+console.log(process.env.RESEND_API_KEY)
 app.get('/', (req, res) => {
   res.send('EngineersWorld Backend Running')
 })
