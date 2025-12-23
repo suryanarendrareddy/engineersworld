@@ -14,6 +14,7 @@ const sendEmail = async ({
 
   const transporter = nodemailer.createTransport({
     host: process.env.MAIL_HOST,
+    
     port: 587,
     secure: false,
     auth: {
