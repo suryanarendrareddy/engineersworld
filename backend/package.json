@@ -1,0 +1,39 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "homepage": "https://github.com/suryanarendrareddy/engineersworld#readme",
+  "bugs": {
+    "url": "https://github.com/suryanarendrareddy/engineersworld/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suryanarendrareddy/engineersworld.git"
+  },
+  "license": "ISC",
+  "author": "Muli Surya Narendra Reddy",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "axios": "^1.13.2",
+    "cloudinary": "^1.41.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.2.1",
+    "libphonenumber-js": "^1.12.31",
+    "mongodb": "^7.0.0",
+    "mongoose": "^9.0.2",
+    "multer": "^2.0.2",
+    "multer-storage-cloudinary": "^4.0.0",
+    "nodemailer": "^7.0.11",
+    "path": "^0.12.7",
+    "resend": "^6.6.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11"
+  }
+}

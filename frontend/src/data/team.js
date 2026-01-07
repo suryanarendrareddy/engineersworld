@@ -1,0 +1,73 @@
+export const TEAM = [
+  {
+    name: 'Mani Kumar',
+    role: 'Chairman',
+    image: '/chairman.jpg',
+    bio: 'Driving vision, innovation, and long-term strategy at Engineers World.',
+    skills: [
+      'Leadership',
+      'Business Strategy',
+      'Creative Direction',
+      'Mentorship',
+    ],
+  },
+  {
+    name: 'Akshay Kumar',
+    role: 'Chief Executive Officer',
+    image: '/CEO.jpg',
+    bio: 'Visionary technologist with deep expertise in cybersecurity and scalable systems.',
+    skills: [
+      'Cybersecurity',
+      'Cloud Computing',
+      'Web Architecture',
+      'Leadership',
+    ],
+  },
+  {
+    name: 'Mohammad Akheel',
+    role: 'Co-Founder',
+    image: '/cofounder.png',
+    bio: 'Technology strategist specializing in networking, AI/ML and cloud platforms.',
+    skills: ['Networking', 'AI/ML', 'Linux', 'Docker', 'Kubernetes'],
+  },
+  {
+    name: 'Shivansh Bhardwaj',
+    role: 'UI/UX Designer',
+    image: '/uiuxdesigner.png',
+    bio: 'Design-focused problem solver creating intuitive user experiences.',
+    skills: ['UI Design', 'UX Research', 'Web Design', 'Data Analysis'],
+  },
+  {
+    name: 'Juvvala Shiva Kesava Rao',
+    role: 'Android Developer',
+    image: '/androidDeveloper.jpg',
+    bio: 'Mobile engineer building secure, scalable Android applications.',
+    skills: ['Android', 'React', 'Spring Boot', 'MySQL'],
+  },
+  {
+    name: 'Yeshwanth',
+    role: 'Managing Director',
+    image: '/marketing.jpg',
+    bio: 'Operational leader aligning business strategy with technology execution.',
+    skills: ['Management', 'Frontend', 'Cybersecurity', 'Strategy'],
+  },
+  {
+    name: 'Karthik Boosa',
+    role: 'Software Tester',
+    image: '/softwaretester.jpg',
+    bio: 'Quality-driven engineer ensuring reliability and performance.',
+    skills: ['QA', 'Automation', 'Java', 'Android'],
+  },
+  {
+    name: 'Sujith',
+    role: 'Cyber Analyst',
+    image: '/cyberAnalyst.jpg',
+    bio: 'Security analyst specializing in threat detection and forensics.',
+    skills: [
+      'Penetration Testing',
+      'Digital Forensics',
+      'Cybersecurity',
+      'Analysis',
+    ],
+  },
+]
